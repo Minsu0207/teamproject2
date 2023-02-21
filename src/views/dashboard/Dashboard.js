@@ -3,11 +3,13 @@ import { Grid, Box } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 
 // components
-import SalesOverview from './components/SalesOverview';
+import TotalPeople from './components/TotalPeople';
+import TodayPeople from './components/TodayPeople';
+import AlertPeople from './components/AlertPeople';
+import Map from './components/Map';
 import YearlyBreakup from './components/YearlyBreakup';
 import RecentTransactions from './components/RecentTransactions';
 import ProductPerformance from './components/ProductPerformance';
-import Blog from './components/Blog';
 import MonthlyEarnings from './components/MonthlyEarnings';
 
 
@@ -15,32 +17,38 @@ const Dashboard = () => {
   return (
     <PageContainer title="Dashboard" description="this is Dashboard">
       <Box>
+
         <Grid container spacing={3}>
-          <Grid item xs={12} lg={8}>
-            <SalesOverview />
+          <Grid item xs>
+            <TotalPeople />
           </Grid>
-          <Grid item xs={12} lg={4}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <YearlyBreakup />
-              </Grid>
-              <Grid item xs={12}>
+          <Grid item xs>
+            <TodayPeople />
+          </Grid>
+          <Grid item xs>
+            <AlertPeople />
+          </Grid>
+
+          <Grid container spacing={1}>
+            <Grid item xs={12} md={7}>
+              <Map />
+            </Grid>
+            <Grid item xs={12} md={5}>
+              <Grid item xs={12} >
                 <MonthlyEarnings />
               </Grid>
+              <Grid item xs={12}>
+              </Grid>
+              <ProductPerformance />
             </Grid>
           </Grid>
-          <Grid item xs={12} lg={4}>
-            <RecentTransactions />
-          </Grid>
-          <Grid item xs={12} lg={8}>
-            <ProductPerformance />
-          </Grid>
-          <Grid item xs={12}>
-            <Blog />
-          </Grid>
+
+
+          {/* <RecentTransactions /> */}
+          {/* <YearlyBreakup /> */}
         </Grid>
       </Box>
-    </PageContainer>
+    </PageContainer >
   );
 };
 

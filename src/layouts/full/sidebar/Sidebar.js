@@ -52,7 +52,7 @@ const Sidebar = (props) => {
               <SidebarItems />
               <Upgrade />
             </Box>
-            
+
           </Box>
         </Drawer>
       </Box>

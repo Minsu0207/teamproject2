@@ -53,9 +53,9 @@ const MonthlyEarnings = () => {
 
   return (
     <DashboardCard
-      title="Monthly Earnings"
+      title="시간별 위험 근로자수"
       action={
-        <Fab color="secondary" size="medium" sx={{color: '#ffffff'}}>
+        <Fab color="secondary" size="medium" sx={{ color: '#ffffff' }}>
           <IconCurrencyDollar width={24} />
         </Fab>
       }

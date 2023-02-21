@@ -9,7 +9,6 @@ const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')))
 /* ****Pages***** */
 const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')))
 const SamplePage = Loadable(lazy(() => import('../views/utilities/SamplePage')))
-const Icons = Loadable(lazy(() => import('../views/icons/Icons')))
 const Page1 = Loadable(lazy(() => import('../views/utilities/Page1')))
 const Page2 = Loadable(lazy(() => import('../views/utilities/Page2')))
 const Error = Loadable(lazy(() => import('../views/authentication/Error')));
@@ -23,10 +22,9 @@ const Router = [
     children: [
       { path: '/', element: <Navigate to="/dashboard" /> },
       { path: '/dashboard', exact: true, element: <Dashboard /> },
-      { path: '/sample-page', exact: true, element: <SamplePage /> },
-      { path: '/icons', exact: true, element: <Icons /> },
       { path: '/ui/page1', exact: true, element: <Page1 /> },
       { path: '/ui/page2', exact: true, element: <Page2 /> },
+      { path: '/sample-page', exact: true, element: <SamplePage /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },

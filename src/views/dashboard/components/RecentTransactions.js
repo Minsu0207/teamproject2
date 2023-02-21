@@ -23,7 +23,7 @@ const RecentTransactions = () => {
           onResizeCapture={undefined}
           sx={{
             p: 0,
-            mb: '-40px',
+            mb: '40px',
             '& .MuiTimelineConnector-root': {
               width: '1px',
               backgroundColor: '#efefef'
@@ -75,23 +75,6 @@ const RecentTransactions = () => {
                 #ML-3467
               </Link>
             </TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent>09:30 am</TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot color="error" variant="outlined" />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>
-              <Typography fontWeight="600">New arrival recorded</Typography>
-            </TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent>12:00 am</TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot color="success" variant="outlined" />
-            </TimelineSeparator>
-            <TimelineContent>Payment Received</TimelineContent>
           </TimelineItem>
         </Timeline>
       </>
