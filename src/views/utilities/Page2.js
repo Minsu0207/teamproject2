@@ -8,7 +8,6 @@ import DashboardCard from '../../components/shared/DashboardCard';
 const Page2 = () => {
   return (
     <PageContainer title="Page2 Page" description="this is Page2 page">
-
       <DashboardCard title="Page2">
         <Typography>Page2</Typography>
       </DashboardCard>
