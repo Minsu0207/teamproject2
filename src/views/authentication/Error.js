@@ -16,7 +16,7 @@ const Error = () => (
         Opps!!!
       </Typography>
       <Typography align="center" variant="h4" mb={4}>
-        This page you are looking for could not be found.
+        잘못된 경로 입니다.
       </Typography>
       <Button color="primary" variant="contained" component={Link} to="/" disableElevation>
         Go Back to Home

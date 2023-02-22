@@ -1,16 +1,18 @@
 import DashboardCard from '../../../components/shared/DashboardCard';
-import { Box, Grid, Stack, Typography, Avatar } from '@mui/material';
+import { Alert, AlertTitle, Box, Fab, Grid, Stack, Typography, Avatar } from '@mui/material';
 
 function AlertPeople() {
 
     return (
         <>
-            <DashboardCard title="위험 의심 인원" >
-                <Typography variant="h4" fontWeight="600"
-                    color='red'>
+            <Alert variant="filled" severity="warning">
+                <Typography variant="h3" fontWeight="500" >
+                    위험 의심 인원
+                </Typography>
+                <Typography variant="h4" fontWeight="500" >
                     2명
                 </Typography>
-            </DashboardCard>
+            </Alert>
         </>
     )
 }

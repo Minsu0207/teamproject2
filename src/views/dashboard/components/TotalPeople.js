@@ -1,16 +1,18 @@
 import DashboardCard from '../../../components/shared/DashboardCard';
-import { Box, Grid, Stack, Typography, Avatar } from '@mui/material';
+import { Alert, Box, Grid, Stack, Typography, Avatar } from '@mui/material';
 
 function TotalPeople() {
 
     return (
         <>
-            <DashboardCard title="전체 등록 인원">
-                <Typography variant="h4" fontWeight="600"
-                >
+            <Alert icon={false} color="info" variant="outlined" severity="info">
+                <Typography variant="h3" fontWeight="500" >
+                    전체 투입인원
+                </Typography>
+                <Typography variant="h4" fontWeight="500" >
                     10명
                 </Typography>
-            </DashboardCard>
+            </Alert>
         </>
     )
 }

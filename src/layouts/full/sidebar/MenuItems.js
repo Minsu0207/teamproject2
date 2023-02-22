@@ -1,5 +1,5 @@
 import {
-  IconAperture, IconCopy, IconLayoutDashboard, IconLogin, IconMoodHappy, IconTypography, IconUserPlus
+  IconAperture, IconCopy, IconUserSearch, IconBrandReact, IconLayoutDashboard, IconLogin, IconMoodHappy, IconTypography, IconUserPlus
 } from '@tabler/icons';
 
 import { uniqueId } from 'lodash';
@@ -12,9 +12,9 @@ const Menuitems = [
 
   {
     id: uniqueId(),
-    title: 'Dashboard',
+    title: 'Home',
     icon: IconLayoutDashboard,
-    href: '/dashboard',
+    href: '/home',
   },
   {
     navlabel: true,
@@ -22,15 +22,15 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: 'Page1',
-    icon: IconCopy,
-    href: '/ui/page1',
+    title: '회원관리',
+    icon: IconUserSearch,
+    href: '/page1',
   },
   {
     id: uniqueId(),
     title: 'Page2',
-    icon: IconCopy,
-    href: '/ui/page2',
+    icon: IconBrandReact,
+    href: '/page2',
   },
   {
     id: uniqueId(),

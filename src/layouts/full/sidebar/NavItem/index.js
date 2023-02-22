@@ -14,7 +14,7 @@ import {
 const NavItem = ({ item, level, pathDirect, onClick }) => {
   const Icon = item.icon;
   const theme = useTheme();
-  const itemIcon = <Icon stroke={1.5} size="1.3rem" />;
+  const itemIcon = <Icon stroke={2} size="1.5rem" />;
 
   const ListItemStyled = styled(ListItem)(() => ({
     whiteSpace: 'nowrap',
@@ -54,7 +54,7 @@ const NavItem = ({ item, level, pathDirect, onClick }) => {
         <ListItemIcon
           sx={{
             minWidth: '36px',
-            p: '3px 0',
+            p: '5px 0',
             color: 'inherit',
           }}
         >

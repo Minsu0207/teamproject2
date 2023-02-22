@@ -1,16 +1,18 @@
 import DashboardCard from '../../../components/shared/DashboardCard';
-import { Box, Grid, Stack, Typography, Avatar } from '@mui/material';
+import { Alert, Grid, Stack, Typography, Avatar } from '@mui/material';
 
 function TodayPeople() {
 
     return (
         <>
-            <DashboardCard title="금일 투입인원">
-                <Typography variant="h4" fontWeight="600"
-                >10명
+            <Alert icon={false} variant="outlined" severity="info">
+                <Typography variant="h3" fontWeight="500" >
+                    금일 투입인원
                 </Typography>
-
-            </DashboardCard>
+                <Typography variant="h4" fontWeight="500" >
+                    10명
+                </Typography>
+            </Alert>
         </>
     )
 }

@@ -7,18 +7,15 @@ import TotalPeople from './components/TotalPeople';
 import TodayPeople from './components/TodayPeople';
 import AlertPeople from './components/AlertPeople';
 import Map from './components/Map';
-import YearlyBreakup from './components/YearlyBreakup';
-import RecentTransactions from './components/RecentTransactions';
-import ProductPerformance from './components/ProductPerformance';
+import StateList from './components/StateList';
 import MonthlyEarnings from './components/MonthlyEarnings';
 
 
 const Dashboard = () => {
   return (
-    <PageContainer title="Dashboard" description="this is Dashboard">
+    <PageContainer title="KeepMe - 스마트솔루션" description="this is Dashboard">
       <Box>
-
-        <Grid container spacing={3}>
+        <Grid container spacing={0.1}  >
           <Grid item xs>
             <TotalPeople />
           </Grid>
@@ -29,23 +26,19 @@ const Dashboard = () => {
             <AlertPeople />
           </Grid>
 
-          <Grid container spacing={1}>
-            <Grid item xs={12} md={7}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
               <Map />
             </Grid>
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} md={6}>
               <Grid item xs={12} >
                 <MonthlyEarnings />
               </Grid>
               <Grid item xs={12}>
+                <StateList />
               </Grid>
-              <ProductPerformance />
             </Grid>
           </Grid>
-
-
-          {/* <RecentTransactions /> */}
-          {/* <YearlyBreakup /> */}
         </Grid>
       </Box>
     </PageContainer >
