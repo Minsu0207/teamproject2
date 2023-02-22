@@ -3,14 +3,15 @@ import { Typography, Grid, CardContent } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
 import { useSelector } from "react-redux";
+import Modal from 'react-modal';
 
 const Page1 = () => {
   let { db } = useSelector((state) => { return state })
   const [data, setData] = useState(db);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [sortOrder, setSortOrder] = useState('asc'); // 정렬 방법 (asc, desc)
-
 
   const items = db.slice();
 
@@ -52,9 +53,28 @@ const Page1 = () => {
   }
 
 
+
+  const handleOpenModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+    }
+  };
+
   return (
     <PageContainer >
-
       <DashboardCard title="회원관리">
         <Typography>
           <div>
@@ -73,7 +93,14 @@ const Page1 = () => {
                     <td>{a.num}</td>
                     <td>{a.name}</td>
                     <td>{a.age}</td>
-                    <td><a href={`/page1/${i}`}>조회</a></td>
+                    <td>
+                      <button onClick={handleOpenModal}>조회</button>
+                      <Modal isOpen={modalIsOpen} onRequestClose={handleCloseModal} style={customStyles}>
+                        <h2>{a.name}님의 상세 정보</h2>
+                        <p>나이: {a.age}</p>
+                        <button onClick={handleCloseModal}>닫기</button>
+                      </Modal>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -88,9 +115,9 @@ const Page1 = () => {
           </div>
         </Typography>
       </DashboardCard>
-    </PageContainer>
+    </PageContainer >
   );
-};
 
+}
 export default Page1;
 
