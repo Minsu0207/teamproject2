@@ -49,6 +49,7 @@ const StateList = () => {
         }
     };
 
+
     // a.age % 3 == 0 ? 'red' :
     //     (a.age % 3 == 1 ? 'orange' : 'green')
 

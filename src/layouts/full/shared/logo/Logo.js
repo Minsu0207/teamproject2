@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { ReactComponent as LogoDark } from 'src/assets/images/logos/dark-logo.svg';
+import { ReactComponent as LogoGold } from 'src/assets/images/logos/logogold.svg';
 import { styled } from '@mui/material';
 
 const LinkStyled = styled(Link)(() => ({
-  height: '70px',
-  width: '180px',
+  height: '82px',
+  width: '400px',
   overflow: 'hidden',
   display: 'block',
 }));
@@ -12,7 +13,7 @@ const LinkStyled = styled(Link)(() => ({
 const Logo = () => {
   return (
     <LinkStyled to="/">
-      <LogoDark height={70} />
+      <LogoGold height={100} />
     </LinkStyled>
   )
 };

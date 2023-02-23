@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Grid, CardContent } from '@mui/material';
+import { Typography, Grid, Button, Box, Table, Modal, Backdrop } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
 import { useSelector } from "react-redux";
-import Modal from 'react-modal';
+import MonthlyEarnings from '../dashboard/components/MonthlyEarnings'
+import { styled } from "@mui/system";
 
 const Page1 = () => {
   let { db } = useSelector((state) => { return state })
@@ -11,6 +12,7 @@ const Page1 = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
+  const [currentMember, setCurrentMember] = useState(1)
   const [sortOrder, setSortOrder] = useState('asc'); // 정렬 방법 (asc, desc)
 
   const items = db.slice();
@@ -18,7 +20,7 @@ const Page1 = () => {
   const updatedItem = { ...items[0], key: 'new value' };
   items[0] = updatedItem;
 
-  console.log(items)
+  // console.log(items)
   const handleSort = (key) => {
     const sortedData = items.sort((a, b) => {
       const valueA = a[key];
@@ -41,6 +43,7 @@ const Page1 = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
+  console.log(currentItems)
   // 페이지 변경 함수
   const handleClick = (event) => {
     setCurrentPage(Number(event.target.id));
@@ -54,7 +57,8 @@ const Page1 = () => {
 
 
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (event, member) => {
+    setCurrentMember(member)
     setModalIsOpen(true);
   };
 
@@ -62,23 +66,20 @@ const Page1 = () => {
     setModalIsOpen(false);
   };
 
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-    }
-  };
+
+  const CustomBackdrop = styled(Backdrop)(({ theme }) => ({
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+    backgroundColor: "rgba(0, 0, 0, 0.05)",
+  }));
+
 
   return (
-    <PageContainer >
-      <DashboardCard title="회원관리">
-        <Typography>
-          <div>
-            <table>
+    <>
+      <PageContainer >
+        <DashboardCard title="회원관리">
+          <Typography>
+            <Table sx={{ textAlign: 'left' }}>
               <thead>
                 <tr>
                   <th onClick={() => handleSort('num')}>num</th>
@@ -94,17 +95,58 @@ const Page1 = () => {
                     <td>{a.name}</td>
                     <td>{a.age}</td>
                     <td>
-                      <button onClick={handleOpenModal}>조회</button>
-                      <Modal isOpen={modalIsOpen} onRequestClose={handleCloseModal} style={customStyles}>
-                        <h2>{a.name}님의 상세 정보</h2>
-                        <p>나이: {a.age}</p>
-                        <button onClick={handleCloseModal}>닫기</button>
+
+
+                      <Button onClick={(e) => handleOpenModal(e, a)}>조회</Button>
+                      <Modal
+                        open={modalIsOpen}
+                        onClose={handleCloseModal}
+                        BackdropComponent={CustomBackdrop}
+                        aria-labelledby="modal-title"
+                        aria-describedby="modal-description"
+                      >
+                        <PageContainer >
+                          <Box sx={{
+                            // bgcolor: "background.paper", //배경색
+                            bgcolor: 'white', //배경색
+                            color: '',
+                            boxShadow: 12, //그림자
+                            p: 3, //패딩
+                            m: 0, //마진
+                            borderRadius: 3,//경계선 반경
+                            maxWidth: '70%', //최대너비
+                            margin: "auto", //마진
+                            mt: 15  //마진 탑
+                          }}
+                          >
+                            <Grid container spacing={2}>
+                              <Grid item xs={12}>
+                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                  {currentMember.name}님의 상세 정보
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12} md={6}>
+                                나이: {currentMember.age}
+                              </Grid>
+
+                              <Grid item xs={12} md={6}>
+                                <MonthlyEarnings />
+                              </Grid>
+                              <Grid item xs={12} md={12}>
+                                <MonthlyEarnings />
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Button onClick={handleCloseModal}>닫기</Button>
+                              </Grid>
+                            </Grid>
+                          </Box>
+                        </PageContainer>
                       </Modal>
                     </td>
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </Table>
             <div>
               {pageNumbers.map((number) => (
                 <button key={number} id={number} onClick={handleClick}>
@@ -112,10 +154,11 @@ const Page1 = () => {
                 </button>
               ))}
             </div>
-          </div>
-        </Typography>
-      </DashboardCard>
-    </PageContainer >
+          </Typography>
+        </DashboardCard>
+      </PageContainer >
+
+    </>
   );
 
 }
