@@ -3,7 +3,7 @@ import { Typography, Grid, Button, Box, Table, Modal, Backdrop } from '@mui/mate
 import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
 import { useSelector } from "react-redux";
-import MonthlyEarnings from '../dashboard/components/MonthlyEarnings'
+import MonthlyEarnings from '../dashboard/components/Mainchart'
 import { styled } from "@mui/system";
 
 const Page1 = () => {
@@ -125,11 +125,20 @@ const Page1 = () => {
                                   {currentMember.name}님의 상세 정보
                                 </Typography>
                               </Grid>
-                              <Grid item xs={12} md={6}>
+                              <Grid item xs={12} md={2}>
                                 나이: {currentMember.age}
                               </Grid>
+                              <Grid item xs={12} md={2}>
+                                나이: {currentMember.age}
+                              </Grid>
+                              <Grid item xs={12} md={2}>
+                                나이: {currentMember.age}
+                              </Grid>
+                              <Grid item xs={12} md={2}>
+                                나이: {Math.max(currentMember.age)}
+                              </Grid>
 
-                              <Grid item xs={12} md={6}>
+                              <Grid item xs={12} md={4}>
                                 <MonthlyEarnings />
                               </Grid>
                               <Grid item xs={12} md={12}>

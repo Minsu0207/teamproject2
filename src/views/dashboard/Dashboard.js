@@ -8,8 +8,9 @@ import TodayPeople from './components/TodayPeople';
 import AlertPeople from './components/AlertPeople';
 import Map from './components/Map';
 import StateList from './components/StateList';
-import MonthlyEarnings from './components/MonthlyEarnings';
-
+import Mainchart from './components/Mainchart';
+import Mainchart2 from './components/Mainchart2';
+import Mainchart3 from './components/Mainchart3';
 
 const Dashboard = () => {
   return (
@@ -25,18 +26,24 @@ const Dashboard = () => {
           <Grid item xs>
             <AlertPeople />
           </Grid>
+          <Grid container spacing={0.1}>
 
+            <Grid item xs={12} md={4}>
+              <Mainchart />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Mainchart2 />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Mainchart3 />
+            </Grid>
+          </Grid>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
-              <Map />
+              <StateList />
             </Grid>
             <Grid item xs={12} md={6}>
-              <Grid item xs={12} >
-                <MonthlyEarnings />
-              </Grid>
-              <Grid item xs={12}>
-                <StateList />
-              </Grid>
+              <Map />
             </Grid>
           </Grid>
         </Grid>

@@ -1,7 +1,9 @@
-import DashboardCard from '../../../components/shared/DashboardCard';
 import { Alert, Box, Grid, Stack, Typography, Avatar } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 function TotalPeople() {
+
+    let { db } = useSelector((state) => { return state })
 
     return (
         <>
@@ -10,7 +12,7 @@ function TotalPeople() {
                     전체 투입인원
                 </Typography>
                 <Typography variant="h4" fontWeight="500" >
-                    10명
+                    {db.length}명
                 </Typography>
             </Alert>
         </>

@@ -1,8 +1,8 @@
 import DashboardCard from '../../../components/shared/DashboardCard';
 import { Alert, Grid, Stack, Typography, Avatar } from '@mui/material';
-
+import { useSelector } from 'react-redux';
 function TodayPeople() {
-
+    let { db } = useSelector((state) => { return state })
     return (
         <>
             <Alert icon={false} variant="outlined" severity="info">
@@ -10,7 +10,7 @@ function TodayPeople() {
                     금일 투입인원
                 </Typography>
                 <Typography variant="h4" fontWeight="500" >
-                    10명
+                    {db.length}명
                 </Typography>
             </Alert>
         </>

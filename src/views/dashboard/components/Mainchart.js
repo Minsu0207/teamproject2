@@ -2,10 +2,15 @@ import React from 'react';
 import Chart from 'react-apexcharts';
 import { useTheme } from '@mui/material/styles';
 import { Stack, Typography, Avatar, Fab } from '@mui/material';
-import { IconArrowDownRight, IconCurrencyDollar } from '@tabler/icons';
 import DashboardCard from '../../../components/shared/DashboardCard';
+import { useSelector } from 'react-redux';
 
-const MonthlyEarnings = () => {
+const Mainchart = () => {
+
+  let { db } = useSelector((state) => { return state })
+  const dblist = db.map((a) => a.age)
+  console.log(dblist)
+
   // chart color
   const theme = useTheme();
   const secondary = theme.palette.secondary.main;
@@ -13,7 +18,7 @@ const MonthlyEarnings = () => {
   const errorlight = '#fdede8';
 
   // chart
-  const optionscolumnchart = {
+  const options = {
     chart: {
       type: 'area',
       fontFamily: "'Plus Jakarta Sans', sans-serif;",
@@ -25,41 +30,51 @@ const MonthlyEarnings = () => {
       sparkline: {
         enabled: true,
       },
+
       group: 'sparklines',
     },
+    title: { text: '위험 의심 인원', align: 'center' },
     stroke: {
       curve: 'smooth',
-      width: 2,
+      width: 3,
     },
     fill: {
       colors: [secondarylight],
       type: 'solid',
-      opacity: 0.05,
+      opacity: 0.2,
     },
     markers: {
       size: 0,
     },
-    tooltip: {
-      theme: theme.palette.mode === 'dark' ? 'dark' : 'light',
-    },
+    yaxis: { min: 0, max: 80, },
+
+    xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar'] },
+    // tooltip: {
+    //   x: {
+    //     format: 'dd/MM/yy HH:mm'
+    //   },
+    // },
   };
-  const seriescolumnchart = [
+
+
+  const series = [
     {
-      name: '',
+      name: '위험 근로자수',
       color: secondary,
-      data: [35, 86, 20, 40, 32, 58, 20],
+      data: db.map((a) => a.age),
     },
   ];
 
+
   return (
     <DashboardCard
-      title="시간별 위험 근로자수"
+      title="사용자 추이"
       footer={
-        <Chart options={optionscolumnchart} series={seriescolumnchart} type="area" height="130px" />
+        <Chart options={options} series={series} type="area" height="170px" />
       }
     >
     </DashboardCard>
   );
 };
 
-export default MonthlyEarnings;
+export default Mainchart;
