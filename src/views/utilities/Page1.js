@@ -110,10 +110,10 @@ const Page1 = () => {
                             // bgcolor: "background.paper", //배경색
                             bgcolor: 'white', //배경색
                             color: '',
-                            boxShadow: 12, //그림자
+                            boxShadow: 3, //그림자
                             p: 3, //패딩
                             m: 0, //마진
-                            borderRadius: 3,//경계선 반경
+                            borderRadius: 2,//경계선 반경
                             maxWidth: '70%', //최대너비
                             margin: "auto", //마진
                             mt: 15  //마진 탑
