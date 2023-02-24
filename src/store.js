@@ -1,6 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
 
-
 let db = createSlice({
     name: 'db',
     initialState: [],

@@ -12,12 +12,13 @@ import Mainchart from './components/Mainchart';
 import Mainchart2 from './components/Mainchart2';
 import Mainchart3 from './components/Mainchart3';
 
+
 const Dashboard = () => {
   return (
     <PageContainer title="KeepMe - 스마트솔루션" description="this is Dashboard">
       <Box>
-        <Grid container spacing={0.1}  >
-          <Grid item xs>
+        <Grid container spacing={3} >
+          <Grid item xs >
             <TotalPeople />
           </Grid>
           <Grid item xs>
@@ -26,8 +27,7 @@ const Dashboard = () => {
           <Grid item xs>
             <AlertPeople />
           </Grid>
-          <Grid container spacing={0.1}>
-
+          <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
               <Mainchart />
             </Grid>

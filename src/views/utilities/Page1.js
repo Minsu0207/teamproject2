@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Grid, Button, Box, Table, Modal, Backdrop } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
+import Mainchart from '../dashboard/components/Mainchart'
 import { useSelector } from "react-redux";
-import MonthlyEarnings from '../dashboard/components/Mainchart'
 import { styled } from "@mui/system";
 
 const Page1 = () => {
@@ -43,7 +43,6 @@ const Page1 = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
-  console.log(currentItems)
   // 페이지 변경 함수
   const handleClick = (event) => {
     setCurrentPage(Number(event.target.id));
@@ -96,7 +95,6 @@ const Page1 = () => {
                     <td>{a.age}</td>
                     <td>
 
-
                       <Button onClick={(e) => handleOpenModal(e, a)}>조회</Button>
                       <Modal
                         open={modalIsOpen}
@@ -137,12 +135,11 @@ const Page1 = () => {
                               <Grid item xs={12} md={2}>
                                 나이: {Math.max(currentMember.age)}
                               </Grid>
-
                               <Grid item xs={12} md={4}>
-                                <MonthlyEarnings />
+                                <Mainchart />
                               </Grid>
                               <Grid item xs={12} md={12}>
-                                <MonthlyEarnings />
+                                <Mainchart />
                               </Grid>
                               <Grid item xs={12}>
                                 <Button onClick={handleCloseModal}>닫기</Button>

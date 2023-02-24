@@ -10,8 +10,8 @@ function Map() {
         let container = document.getElementById("map");
         let options = {
             center: new window.kakao.maps.LatLng(
-                35.23583857913,
-                129.0767845396242
+                35.23553857913,
+                129.0757845396242
             ),
             level: 3,
         };
@@ -43,15 +43,17 @@ function Map() {
         for (var i = 0; i < positions.length; i++) {
             var imageSrc;
             if (i == 3) {
-                imageSrc = process.env.PUBLIC_URL + "/img/1.png";
+                imageSrc = process.env.PUBLIC_URL + "/img/a1.jpg";
             } else if (i == 1) {
-                imageSrc = process.env.PUBLIC_URL + `/img/4.png`;
+                imageSrc = process.env.PUBLIC_URL + `/img/a5.jpg`;
+            } else if (i == 1) {
+                imageSrc = process.env.PUBLIC_URL + `/img/a2jpg`;
             } else {
-                imageSrc = process.env.PUBLIC_URL + `/img/2.png`;
+                imageSrc = process.env.PUBLIC_URL + `/img/a4.jpg`;
             }
 
             // 마커 이미지의 이미지 크기 입니다
-            var imageSize = new kakao.maps.Size(50, 35);
+            var imageSize = new kakao.maps.Size(50, 50);
 
             // 마커 이미지를 생성합니다    
             var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
@@ -78,7 +80,11 @@ function Map() {
 
         if (selectedMarker) {
             var infowindow = new kakao.maps.InfoWindow({
-                content: selectedMarker.getTitle(),
+                content:
+                    <div>
+                        <h1>abc</h1>
+                        <h2>selectedMarker.getTitle()</h2>
+                    </div>,
                 removable: true
             });
             infowindow.open(map, selectedMarker);
@@ -87,14 +93,10 @@ function Map() {
 
     }, [selectedMarker]);
 
-
-
-
-
     return (
         <>
             <DashboardCard title="현장 근로자 위치">
-                <div id="map" style={{ width: "100%", height: "600px" }} />
+                <div id="map" style={{ width: "100%", height: "400px" }} />
             </DashboardCard>
 
         </>

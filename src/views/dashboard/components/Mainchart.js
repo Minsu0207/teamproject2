@@ -48,7 +48,7 @@ const Mainchart = () => {
     },
     yaxis: { min: 0, max: 80, },
 
-    xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar'] },
+    // xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar'] },
     // tooltip: {
     //   x: {
     //     format: 'dd/MM/yy HH:mm'
