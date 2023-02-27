@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { baselightTheme } from "./theme/DefaultColors";
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { getDbList } from './store'
+import { getDbList, getResultsList } from './store'
 import Error from './views/authentication/Error';
 
 const App = () => {
@@ -30,8 +30,27 @@ const App = () => {
     setLoading(false);
   };
 
+  const fetchUsers2 = async () => {
+    try {
+      setError(null);
+      setLoading(true);
+      await axios.get("/results").then((result) => {
+        dispatch(getResultsList(result.data));
+        console.log("데이터 통신 성공")
+      })
+    } catch (e) {
+      setError(e);
+      console.log("데이터 가져오기 실패")
+    }
+    setLoading(false);
+  };
+
+
+
+
   useEffect(() => {
     fetchUsers();
+    fetchUsers2();
   }, []);
 
   if (loading) return <div>로딩중..</div>;

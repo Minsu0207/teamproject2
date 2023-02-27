@@ -1,5 +1,5 @@
 import {
-  IconAperture, IconCopy, IconUserSearch, IconBrandReact, IconLayoutDashboard, IconLogin, IconMoodHappy, IconTypography, IconUserPlus
+  IconAperture, IconCopy, IconUserSearch, IconAlertCircle, IconBrandReact, IconLayoutDashboard, IconLogin, IconMoodHappy, IconTypography, IconUserPlus
 } from '@tabler/icons';
 
 import { uniqueId } from 'lodash';
@@ -28,8 +28,8 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: 'Page2',
-    icon: IconBrandReact,
+    title: '낙상 위험감지?',
+    icon: IconAlertCircle,
     href: '/page2',
   },
   {

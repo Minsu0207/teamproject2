@@ -9,7 +9,7 @@ const Mainchart2 = () => {
 
   let { db } = useSelector((state) => { return state })
   const dblist = db.map((a) => a.age)
-  console.log(dblist)
+  // console.log(dblist)
 
   // chart color
   const theme = useTheme();

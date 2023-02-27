@@ -8,6 +8,7 @@ import { styled } from "@mui/system";
 
 const Page1 = () => {
   let { db } = useSelector((state) => { return state })
+  
   const [data, setData] = useState(db);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,6 +17,7 @@ const Page1 = () => {
   const [sortOrder, setSortOrder] = useState('asc'); // 정렬 방법 (asc, desc)
 
   const items = db.slice();
+
 
   const updatedItem = { ...items[0], key: 'new value' };
   items[0] = updatedItem;
