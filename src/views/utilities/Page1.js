@@ -7,6 +7,9 @@ import { useSelector } from 'react-redux';
 import { styled } from '@mui/system';
 
 
+
+
+
 const Page1 = () => {
   let { gps } = useSelector((state) => {
     return state;
