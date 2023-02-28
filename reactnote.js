@@ -124,3 +124,19 @@ JSON.stringify("파일명")
   //     test2.push(a);
   //   }
   // })
+
+
+
+const result = Object.values(data.reduce((acc, [userId, lat, lon, recordTime]) => {
+  if (!acc[userId] || acc[userId].recordTime < recordTime) {
+    acc[userId] = { userId, lat, lon, recordTime };
+  }
+  return acc;
+}, {}));
+
+console.log(result);
+// Output: 
+// [
+//   { userId: '1001', lat: '35.16915512084961', lon: '129.14007568359375', recordTime: '2023-02-27 23:33:26' },
+//   { userId: '1002', lat: '35.16895294189453', lon: '129.14085388183594', recordTime: '2023-02-27 23:33:13' }
+// ]

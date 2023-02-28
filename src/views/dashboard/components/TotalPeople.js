@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 function TotalPeople() {
 
-    let { db } = useSelector((state) => { return state })
+    let { user } = useSelector((state) => { return state })
 
     return (
         <>
@@ -12,7 +12,7 @@ function TotalPeople() {
                     전체 투입인원
                 </Typography>
                 <Typography variant="h4" fontWeight="500" >
-                    {db.length}명
+                    {user.length}명
                 </Typography>
             </Alert>
         </>

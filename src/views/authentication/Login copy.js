@@ -43,7 +43,7 @@ const Login2 = () => {
               </Box>
               <AuthLogin
                 subtext={
-                  <Typography variant="subtitle2" textAlign="center" color="textSecondary" mb={1}>
+                  <Typography variant="subtitle1" textAlign="center" color="textSecondary" mb={1}>
                     로그인 해주세요.
                   </Typography>
                 }

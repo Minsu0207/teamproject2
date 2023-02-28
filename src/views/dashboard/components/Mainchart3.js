@@ -8,6 +8,7 @@ const Mainchart3 = () => {
 
   let { db } = useSelector((state) => { return state })
 
+
   // chart color
   const theme = useTheme();
   const secondary = theme.palette.secondary.main;

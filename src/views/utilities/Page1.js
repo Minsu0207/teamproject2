@@ -2,22 +2,34 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Grid, Button, Box, Table, Modal, Backdrop } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
-import Mainchart from '../dashboard/components/Mainchart'
-import { useSelector } from "react-redux";
-import { styled } from "@mui/system";
+import Mainchart from '../dashboard/components/Mainchart';
+import { useSelector } from 'react-redux';
+import { styled } from '@mui/system';
+
 
 const Page1 = () => {
-  let { db } = useSelector((state) => { return state })
-  
-  const [data, setData] = useState(db);
+  let { gps } = useSelector((state) => {
+    return state;
+  });
+  let { vitalsign } = useSelector((state) => {
+    return state;
+  });
+  let { user } = useSelector((state) => {
+    return state;
+  });
+
+  console.log(gps);
+  console.log(vitalsign);
+  console.log(user);
+
+  const [data, setData] = useState(user);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
-  const [currentMember, setCurrentMember] = useState(1)
+  const [currentMember, setCurrentMember] = useState(1);
   const [sortOrder, setSortOrder] = useState('asc'); // 정렬 방법 (asc, desc)
 
-  const items = db.slice();
-
+  const items = user.slice();
 
   const updatedItem = { ...items[0], key: 'new value' };
   items[0] = updatedItem;
@@ -56,10 +68,8 @@ const Page1 = () => {
     pageNumbers.push(i);
   }
 
-
-
   const handleOpenModal = (event, member) => {
-    setCurrentMember(member)
+    setCurrentMember(member);
     setModalIsOpen(true);
   };
 
@@ -67,17 +77,15 @@ const Page1 = () => {
     setModalIsOpen(false);
   };
 
-
   const CustomBackdrop = styled(Backdrop)(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
-    backgroundColor: "rgba(0, 0, 0, 0.05)",
+    color: '#fff',
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
   }));
-
 
   return (
     <>
-      <PageContainer >
+      <PageContainer>
         <DashboardCard title="회원관리">
           <Typography>
             <Table sx={{ textAlign: 'left' }}>
@@ -96,7 +104,6 @@ const Page1 = () => {
                     <td>{a.name}</td>
                     <td>{a.age}</td>
                     <td>
-
                       <Button onClick={(e) => handleOpenModal(e, a)}>조회</Button>
                       <Modal
                         open={modalIsOpen}
@@ -105,19 +112,20 @@ const Page1 = () => {
                         aria-labelledby="modal-title"
                         aria-describedby="modal-description"
                       >
-                        <PageContainer >
-                          <Box sx={{
-                            // bgcolor: "background.paper", //배경색
-                            bgcolor: 'white', //배경색
-                            color: '',
-                            boxShadow: 3, //그림자
-                            p: 3, //패딩
-                            m: 0, //마진
-                            borderRadius: 2,//경계선 반경
-                            maxWidth: '70%', //최대너비
-                            margin: "auto", //마진
-                            mt: 15  //마진 탑
-                          }}
+                        <PageContainer>
+                          <Box
+                            sx={{
+                              // bgcolor: "background.paper", //배경색
+                              bgcolor: 'white', //배경색
+                              color: '',
+                              boxShadow: 3, //그림자
+                              p: 3, //패딩
+                              m: 0, //마진
+                              borderRadius: 2, //경계선 반경
+                              maxWidth: '70%', //최대너비
+                              margin: 'auto', //마진
+                              mt: 15, //마진 탑
+                            }}
                           >
                             <Grid container spacing={2}>
                               <Grid item xs={12}>
@@ -164,11 +172,8 @@ const Page1 = () => {
             </div>
           </Typography>
         </DashboardCard>
-      </PageContainer >
-
+      </PageContainer>
     </>
   );
-
-}
+};
 export default Page1;
-

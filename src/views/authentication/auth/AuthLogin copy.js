@@ -19,7 +19,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             const res = await axios.get(`/login?id=${formData.id}`, {
                 withCredentials: true // 쿠키를 전달할 수 있도록 설정
             });
-            console.log('**res::', res.data)
+            console.log('**res::', res)
             if (res.data.length === 0) {
                 throw new Error('Login failed');
             }
@@ -32,7 +32,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             alert(`${res.data[0].name}님 환영합니다! 메인페이지로 이동합니다`)
             navigate('/');
         } catch (e) {
-            // console.error(e);
+            console.error(e);
             console.log('로그인 실패')
             alert('로그인에 실패하였습니다.');
         }
@@ -52,6 +52,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
                     {title}
                 </Typography>
             ) : null}
+
             {subtext}
 
             <Stack>
@@ -68,6 +69,9 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
                     <CustomTextField id="password" name="password" type="password" variant="outlined" fullWidth onChange={handleChange} />
                 </Box>
                 <Stack justifyContent="space-between" direction="row" alignItems="center" my={2}>
+                    <FormGroup>
+                        <FormControlLabel control={<Checkbox defaultChecked />} label="Remeber this Device" />
+                    </FormGroup>
                     <Typography
                         component={Link}
                         to="/"

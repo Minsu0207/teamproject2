@@ -6,9 +6,10 @@ import DashboardCard from '../../../components/shared/DashboardCard';
 import { useSelector } from 'react-redux';
 
 const Mainchart = () => {
-
-  let { db } = useSelector((state) => { return state })
-  const dblist = db.map((a) => a.age)
+  let { db } = useSelector((state) => {
+    return state;
+  });
+  const dblist = db.map((a) => a.age);
   // console.log(dblist)
 
   // chart color
@@ -46,7 +47,7 @@ const Mainchart = () => {
     markers: {
       size: 0,
     },
-    yaxis: { min: 0, max: 80, },
+    yaxis: { min: 0, max: 80 },
 
     // xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar'] },
     // tooltip: {
@@ -56,7 +57,6 @@ const Mainchart = () => {
     // },
   };
 
-
   const series = [
     {
       name: '위험 근로자수',
@@ -65,15 +65,11 @@ const Mainchart = () => {
     },
   ];
 
-
   return (
     <DashboardCard
       title="사용자 추이"
-      footer={
-        <Chart options={options} series={series} type="area" height="170px" />
-      }
-    >
-    </DashboardCard>
+      footer={<Chart options={options} series={series} type="area" height="170px" />}
+    ></DashboardCard>
   );
 };
 

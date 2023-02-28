@@ -1,37 +1,34 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit'
+import { configureStore, createSlice } from '@reduxjs/toolkit';
 
-let db = createSlice({
-    name: 'db',
+const listReducer = (name) =>
+  createSlice({
+    name,
     initialState: [],
     reducers: {
-        getDbList(state, action) {
-            if (state.length == 0) {
-                state = action.payload;
-                return state
-            }
+      setList(state, action) {
+        if (state.length === 0) {
+          return action.payload;
         }
-    }
-})
+        return state;
+      },
+    },
+  });
 
-let results = createSlice({
-    name: 'results',
-    initialState: [],
-    reducers: {
-        getResultsList(state, action) {
-            if (state.length == 0) {
-                state = action.payload;
-                return state
-            }
-        }
-    }
-})
+const db = listReducer('db');
+const user = listReducer('user');
+const vitalsign = listReducer('vitalsign');
+const gps = listReducer('gps');
 
 export default configureStore({
-    reducer: {
-        db: db.reducer,
-        results: results.reducer
-    }
-})
+  reducer: {
+    db: db.reducer,
+    user: user.reducer,
+    vitalsign: vitalsign.reducer,
+    gps: gps.reducer,
+  },
+});
 
-export let { getDbList } = db.actions
-export let { getResultsList } = results.actions
+export const { setList: getDbList } = db.actions;
+export const { setList: getUserList } = user.actions;
+export const { setList: getVitalsignList } = vitalsign.actions;
+export const { setList: getGpsList } = gps.actions;
