@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { baselightTheme } from './theme/DefaultColors';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { getDbList, getUserList, getGpsList, getVitalsignList } from './store';
+import { getDbList, getUserList, getUsersList, getGpsList, getVitalsignList } from './store';
 import Error from './views/authentication/Error';
 
 const App = () => {
@@ -14,36 +14,6 @@ const App = () => {
   const routing = useRoutes(Router);
   const theme = baselightTheme;
   let dispatch = useDispatch();
-
-  // const fetchUsers = async () => {
-  //   try {
-  //     setError(null);
-  //     setLoading(true);
-  //     await axios.get("/test").then((result) => {
-  //       dispatch(getDbList(result.data));
-  //       console.log("데이터 통신 성공")
-  //     })
-  //   } catch (e) {
-  //     setError(e);
-  //     console.log("데이터 가져오기 실패")
-  //   }
-  //   setLoading(false);
-  // };
-
-  // const fetchUsers2 = async () => {
-  //   try {
-  //     setError(null);
-  //     setLoading(true);
-  //     await axios.get("/results").then((result) => {
-  //       dispatch(getResultsList(result.data));
-  //       console.log("데이터 통신 성공")
-  //     })
-  //   } catch (e) {
-  //     setError(e);
-  //     console.log("데이터 가져오기 실패")
-  //   }
-  //   setLoading(false);
-  // };
 
   const fetchData = async (url, actionCreator) => {
     try {
@@ -63,12 +33,15 @@ const App = () => {
   const fetch1 = () => fetchData('/user', getUserList);
   const fetch2 = () => fetchData('/vitalsign', getVitalsignList);
   const fetch3 = () => fetchData('/gps', getGpsList);
+  const fetch4 = () => fetchData('/users', getUsersList);
+
 
   useEffect(() => {
     fetch();
     fetch1();
     fetch2();
     fetch3();
+    fetch4();
   }, []);
 
   if (loading) return <div>로딩중..</div>;

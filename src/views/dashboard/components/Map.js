@@ -1,5 +1,4 @@
 import DashboardCard from '../../../components/shared/DashboardCard';
-
 import { useEffect } from 'react';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -9,7 +8,6 @@ function Map() {
     let { gps } = useSelector((state) => {
         return state;
     });
-    // console.log(gps)
 
     const lastgps = Object.values(
         gps.reduce((acc, { id, lat, lon, recordTime }) => {
@@ -37,7 +35,6 @@ function Map() {
             };
         });
 
-        console.log(positions)
         for (var i = 0; i < positions.length; i++) {
             var imageSrc;
             if (i == 3) {

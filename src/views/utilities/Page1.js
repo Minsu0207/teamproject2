@@ -7,37 +7,36 @@ import { useSelector } from 'react-redux';
 import { styled } from '@mui/system';
 
 
-
-
-
 const Page1 = () => {
-  let { gps } = useSelector((state) => {
-    return state;
-  });
-  let { vitalsign } = useSelector((state) => {
-    return state;
-  });
   let { user } = useSelector((state) => {
     return state;
   });
+  let { users } = useSelector((state) => {
+    return state;
+  });
 
-  console.log(gps);
-  console.log(vitalsign);
-  console.log(user);
 
-  const [data, setData] = useState(user);
+
+  const [data, setData] = useState(users);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(20);
   const [currentMember, setCurrentMember] = useState(1);
   const [sortOrder, setSortOrder] = useState('asc'); // 정렬 방법 (asc, desc)
 
   const items = user.slice();
-
   const updatedItem = { ...items[0], key: 'new value' };
   items[0] = updatedItem;
 
-  // console.log(items)
+  //데이터중 recordTime이 가장 최신값이 1개만 추출, 중복제거
+  const res = Object.values(data.reduce((acc, currentValue) => {
+    const { id, name, position, age, employedDate, contact, lat, lon, temp, o2, heartRate, steps, recordTime } = currentValue;
+    if (!acc[id] || acc[id].recordTime < recordTime) {
+      acc[id] = { id, name, age, position, employedDate, contact, lat, lon, temp, o2, heartRate, steps, recordTime };
+    }
+    return acc;
+  }, {}));
+
+
+  //정렬
   const handleSort = (key) => {
     const sortedData = items.sort((a, b) => {
       const valueA = a[key];
@@ -55,31 +54,19 @@ const Page1 = () => {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
-  // 페이징 함수
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
-  // 페이지 변경 함수
-  const handleClick = (event) => {
-    setCurrentPage(Number(event.target.id));
-  };
-
-  // 페이지 번호 계산
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(data.length / itemsPerPage); i++) {
-    pageNumbers.push(i);
-  }
-
+  //모달창 오픈
   const handleOpenModal = (event, member) => {
     setCurrentMember(member);
     setModalIsOpen(true);
   };
 
+  //모달창 클로즈
   const handleCloseModal = () => {
     setModalIsOpen(false);
   };
 
+  //배경 css
   const CustomBackdrop = styled(Backdrop)(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
@@ -94,26 +81,26 @@ const Page1 = () => {
             <Table sx={{ textAlign: 'left' }}>
               <thead>
                 <tr>
-                  <th onClick={() => handleSort('num')}>num</th>
+                  <th onClick={() => handleSort('id')}>사원번호</th>
                   <th onClick={() => handleSort('name')}>name</th>
+                  <th onClick={() => handleSort('position')}>직책</th>
                   <th onClick={() => handleSort('age')}>age</th>
                   <th>상세정보</th>
                 </tr>
               </thead>
               <tbody>
-                {currentItems.map((a, i) => (
+                {res.map((a, i) => (
                   <tr key={i}>
-                    <td>{a.num}</td>
+                    <td>{a.id}</td>
                     <td>{a.name}</td>
+                    <td>{a.position}</td>
                     <td>{a.age}</td>
                     <td>
-                      <Button onClick={(e) => handleOpenModal(e, a)}>조회</Button>
+                      <Button onClick={(e) => handleOpenModal(e, a)}>자세히 보기</Button>
                       <Modal
                         open={modalIsOpen}
                         onClose={handleCloseModal}
                         BackdropComponent={CustomBackdrop}
-                        aria-labelledby="modal-title"
-                        aria-describedby="modal-description"
                       >
                         <PageContainer>
                           <Box
@@ -127,7 +114,7 @@ const Page1 = () => {
                               borderRadius: 2, //경계선 반경
                               maxWidth: '70%', //최대너비
                               margin: 'auto', //마진
-                              mt: 15, //마진 탑
+                              mt: 5, //마진 탑
                             }}
                           >
                             <Grid container spacing={2}>
@@ -136,14 +123,18 @@ const Page1 = () => {
                                   {currentMember.name}님의 상세 정보
                                 </Typography>
                               </Grid>
-                              <Grid item xs={12} md={2}>
+                              <Grid item xs={12} md={3}>
+                                {currentMember.name} {currentMember.position}<br />
+                                {currentMember.contact}<br /><br />
+                                담당: {currentMember.role}<br />
+                                입사일:{currentMember.employedDate}<br />
+                              </Grid>
+                              <Grid item xs={12} md={1}>
                                 나이: {currentMember.age}
                               </Grid>
                               <Grid item xs={12} md={2}>
                                 나이: {currentMember.age}
-                              </Grid>
-                              <Grid item xs={12} md={2}>
-                                나이: {currentMember.age}
+                                나이: {currentMember.heartRate}
                               </Grid>
                               <Grid item xs={12} md={2}>
                                 나이: {Math.max(currentMember.age)}
@@ -166,13 +157,6 @@ const Page1 = () => {
                 ))}
               </tbody>
             </Table>
-            <div>
-              {pageNumbers.map((number) => (
-                <button key={number} id={number} onClick={handleClick}>
-                  {number}
-                </button>
-              ))}
-            </div>
           </Typography>
         </DashboardCard>
       </PageContainer>
