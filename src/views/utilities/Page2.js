@@ -1,18 +1,56 @@
-import React from 'react';
-import { Box, Modal, Table, Typography, Grid, CardContent } from '@mui/material';
-import PageContainer from 'src/components/container/PageContainer';
-import DashboardCard from '../../components/shared/DashboardCard';
+import { React, useState, useEffect } from 'react';
 
 
-const Page2 = () => {
+function WebSocketExample() {
+  const [websocket, setWebsocket] = useState(null);
+  const [messages, setMessages] = useState([]);
+
+
+  useEffect(() => {
+    if (!websocket) {
+      return;
+    }
+
+    const onMessage = (msg) => {
+      const data = msg.data;
+
+      const newData = JSON.parse(data);
+      const newMessages = [...messages, newData];
+      console.log("newMessages", newMessages)
+
+      setMessages(newMessages);
+    };
+
+    websocket.onmessage = onMessage;
+
+    return () => {
+      // websocket.close();
+    };
+  }, [websocket, messages]);
+
+  const start = () => {
+    const newWebSocket = new WebSocket('ws://localhost:8081/ws/health');
+    console.log("start");
+    setWebsocket(newWebSocket);
+  };
+
+
+
   return (
-    <PageContainer title="낙상&추락 위험감지" description="this is Page2 page">
-      <DashboardCard title="낙상&추락 위험감지">
-        <h3>2회 이상 위험감지자 </h3>
-        <Typography sx={{ textAlign: 'center' }}>마지막동기화 27초전</Typography>
-      </DashboardCard>
-    </PageContainer>
-  );
-};
+    <div>
+      <button type="button" onClick={start}>
+        시작
+      </button>
+      <div className="col">
+        {messages.map((a, index) => (
+          <div key={index}>
+            <p>{a.name} {a.age}</p>
 
-export default Page2;
+          </div>
+        ))}
+      </div>
+    </div >
+  );
+}
+
+export default WebSocketExample;

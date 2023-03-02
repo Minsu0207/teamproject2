@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 
 function AlertPeople() {
-    let { db } = useSelector((state) => { return state })
     return (
         <>
             <Alert variant="filled" severity="warning">

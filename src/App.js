@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { baselightTheme } from './theme/DefaultColors';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { getDbList, getUserList, getUsersList, getGpsList, getVitalsignList } from './store';
+import { getUsersList, getUserList } from './store';
 import Error from './views/authentication/Error';
 
 const App = () => {
@@ -29,19 +29,13 @@ const App = () => {
     setLoading(false);
   };
 
-  const fetch = () => fetchData('/test', getDbList);
-  const fetch1 = () => fetchData('/user', getUserList);
-  const fetch2 = () => fetchData('/vitalsign', getVitalsignList);
-  const fetch3 = () => fetchData('/gps', getGpsList);
-  const fetch4 = () => fetchData('/users', getUsersList);
+  const fetch = () => fetchData('/healthinfo/all', getUsersList);
+  // const fetch1 = () => fetchData('/healthinfo/id:', getUserList);
 
 
   useEffect(() => {
     fetch();
-    fetch1();
-    fetch2();
-    fetch3();
-    fetch4();
+    // fetch1();
   }, []);
 
   if (loading) return <div>로딩중..</div>;

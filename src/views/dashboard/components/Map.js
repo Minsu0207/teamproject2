@@ -5,24 +5,24 @@ import { useSelector } from 'react-redux';
 
 
 function Map() {
-    let { gps } = useSelector((state) => {
+    let { users } = useSelector((state) => {
         return state;
     });
+    //데이터중 recordTime이 가장 최신값이 1개만 추출, 중복제거
+    const lastgps = Object.values(users.reduce((a, cur) => {
+        const { id, name, position, age, employedDate, contact, lat, lon, temp, o2, result, heartRate, steps, recordTime } = cur;
+        if (!a[id] || a[id].recordTime < recordTime) {
+            a[id] = { id, name, age, position, employedDate, contact, lat, lon, temp, o2, result, heartRate, steps, recordTime };
+        }
+        return a;
+    }, {}));
 
-    const lastgps = Object.values(
-        gps.reduce((acc, { id, lat, lon, recordTime }) => {
-            if (!acc[id] || acc[id].recordTime < recordTime) {
-                acc[id] = { id, lat, lon, recordTime };
-            }
-            return acc;
-        }, {}),
-    );
     const { kakao } = window;
 
     useEffect(() => {
         let container = document.getElementById('map');
         let options = {
-            center: new window.kakao.maps.LatLng(35.16926956176758, 129.14048767089844),
+            center: new window.kakao.maps.LatLng(35.1687, 129.1402),
             level: 2,
         };
 
@@ -30,22 +30,37 @@ function Map() {
 
         const positions = lastgps.map((a, i) => {
             return {
-                content: `<div>${a.id}님의 현재위치</div>`,
+                content: `
+                <div>
+                <a>${a.name}님의 현재위치</a><br />
+                <a>체온 ${a.temp} 맥박수${a.heartRate}</a><br />
+                </div>
+                <div style="text-align: center;">
+                <a style="text-align: center;">${a.result == 1 ? '🟢정상' : a.result == 2 ? '🟠주의' : '🚨위험 확인필요'}</a><br />
+                </div>
+                
+                `
+                ,
                 latlng: new kakao.maps.LatLng(a.lat, a.lon),
+                result: a.result,
             };
+
         });
 
+
+
         for (var i = 0; i < positions.length; i++) {
-            var imageSrc;
-            if (i == 3) {
-                imageSrc = process.env.PUBLIC_URL + '/img/a1.jpg';
-            } else if (i == 2) {
-                imageSrc = process.env.PUBLIC_URL + `/img/a5.jpg`;
-            } else if (i == 1) {
-                imageSrc = process.env.PUBLIC_URL + `/img/a2.jpg`;
+            let imageSrc;
+            if (positions[i].result === 1) {
+                imageSrc = process.env.PUBLIC_URL + '/img/result1.png';
+            } else if (positions[i].result === 2) {
+                imageSrc = process.env.PUBLIC_URL + `/img/result2.png`;
+            } else if (positions[i].result === 3) {
+                imageSrc = process.env.PUBLIC_URL + `/img/result3.png`;
             } else {
-                imageSrc = process.env.PUBLIC_URL + `/img/a3.jpg`;
+                imageSrc = process.env.PUBLIC_URL + `/img/result1.png`;
             }
+
 
             var imageSize = new kakao.maps.Size(50, 50);
 
