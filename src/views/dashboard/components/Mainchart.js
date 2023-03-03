@@ -47,12 +47,6 @@ const Mainchart = () => {
     },
     yaxis: { min: 0, max: 60 },
 
-    // xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar'] },
-    // tooltip: {
-    //   x: {
-    //     format: 'dd/MM/yy HH:mm'
-    //   },
-    // },
   };
 
   const series = [

@@ -10,13 +10,12 @@ import { styled } from '@mui/system';
 const Page1 = () => {
 
   let { user } = useSelector((state) => { return state; });
-  let { users } = useSelector((state) => { return state; });
 
   const navigate = useNavigate();
 
 
 
-  const [data, setData] = useState(users);
+  const [data, setData] = useState(user);
   const [sortOrder, setSortOrder] = useState('asc'); // 정렬 방법 (asc, desc)
 
   const items = user.slice();

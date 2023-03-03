@@ -11,7 +11,7 @@ const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
-    id: '',
+    adminId: '',
     password: '',
     email: '',
   });
@@ -21,7 +21,11 @@ const Register = () => {
       const salt = await bcrypt.genSalt(10); // salt 생성
       const hashedPassword = await bcrypt.hash(formData.password, salt); // 비밀번호 해싱
 
-      const res = await axios.post(`/addMember?id=${formData.id}&password=${hashedPassword}&name=${formData.name}&email=${formData.email}`);
+      const res = await axios.post(`/addMember?
+      name=${formData.name}
+      &adminId=${formData.adminId}
+      &password=${hashedPassword}
+      &email=${formData.email}`);
 
       console.log(res.data)
       if (res.data === 'duplicated') {
@@ -32,7 +36,7 @@ const Register = () => {
       alert('회원가입이 완료되었습니다.');
       navigate('/auth/login');
     } catch (e) {
-      alert('1회원가입에 실패하였습니다.');
+      alert('회원가입에 실패하였습니다.');
     }
   };
 

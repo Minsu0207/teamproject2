@@ -48,16 +48,35 @@ body {
 
 .sparkboxes .box1 {
   background-image: linear-gradient(135deg, #abdcff 10%, #0396ff 100%);
+  align-items: center;
+  justify-content: center;
 }
 
 .sparkboxes .box2 {
   background-image: linear-gradient(135deg, #2afadf 10%, #4c83ff 100%);
+  align-items: center;
+  justify-content: center;
 }
 
 .sparkboxes .box3 {
   background-image: linear-gradient(135deg, #ffd3a5 10%, #fd6585 100%);
+  align-items: center;
+  justify-content: center;
 }
 
 .sparkboxes .box4 {
   background-image: linear-gradient(135deg, #ee9ae5 10%, #5961f9 100%);
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-text {
+  position: relative;
+  top: 33px;
+  font-size: 20px;
+  color: #ffffff;
+  font-weight: bold;
+  align-self: center;
+  /* margin-left: 16px; */
+  /* margin-top: 20px; */
 }

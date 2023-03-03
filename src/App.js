@@ -29,7 +29,7 @@ const App = () => {
     setLoading(false);
   };
 
-  const fetch = () => fetchData('/healthinfo/all', getUsersList);
+  const fetch = () => fetchData('/healthinfo/all', getUserList);
   // const fetch1 = () => fetchData('/healthinfo/id:', getUserList);
 
 

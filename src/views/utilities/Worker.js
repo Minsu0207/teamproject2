@@ -1,22 +1,18 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { React, useRef, useEffect, useState } from "react";
-import ApexCharts from 'apexcharts';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Chip, CardContent, Typography, Slider } from '@mui/material';
 import './styles.css';
-
+import Chart from "./Chart";
 function Worker() {
     let { id } = useParams();
-    const [users, setUsers] = useState(null);
+    const [user, setUser] = useState(null);
+    const [userTen, setUserTen] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const chart1Ref = useRef(null);
-    const chart2Ref = useRef(null);
-    const chart3Ref = useRef(null);
-    const chart4Ref = useRef(null);
     const [websocket, setWebsocket] = useState(null);
     const [messages, setMessages] = useState([]);
-    const chartRef = useRef(null);
+
 
     useEffect(() => {
         if (!websocket) {
@@ -26,11 +22,10 @@ function Worker() {
         const onMessage = (msg) => {
             const data = msg.data;
             const newData = JSON.parse(data);
-            if (newData.id === Number(id)) {
-                const newMessages = [...messages, newData.age];
-                setMessages(newMessages);
+            if (newData.id == Number(id)) {
+                const newMessages = [...messages, newData];
                 console.log(newMessages)
-                updateChart(newMessages);
+                setMessages(newMessages);
             }
         };
 
@@ -47,13 +42,27 @@ function Worker() {
         setWebsocket(newWebSocket);
     };
 
-    const fetchUsers = async () => {
+
+    const fetchUser = async () => {
         try {
             setError(null);
-            setUsers(null);
+            setUser(null);
             setLoading(true);
-            const res = await axios.get(`/healthinfo/${id}`);
-            setUsers(res.data);
+            const response = await axios.get(`/healthinfo/${id}`);
+            setUser(response.data);
+        } catch (e) {
+            setError(e);
+        }
+        setLoading(false);
+    };
+
+    const fetchUserTen = async () => {
+        try {
+            setError(null);
+            setUserTen(null);
+            setLoading(true);
+            const response = await axios.get(`/healthinfoTen/${id}`);
+            setUserTen(response.data);
         } catch (e) {
             setError(e);
         }
@@ -61,114 +70,79 @@ function Worker() {
     };
 
     useEffect(() => {
-        fetchUsers();
+        fetchUser();
+        fetchUserTen();
     }, []);
-
-
-
-    useEffect(() => {
-        if (!chartRef.current) {
-            return;
-        }
-        const chart = new ApexCharts(chartRef.current, {
-            series: [
-                {
-                    name: 'Series 1',
-                    data: []
-                }
-            ],
-            chart: {
-                id: 'realtime',
-                height: 350,
-                type: 'line',
-                animations: {
-                    enabled: true,
-                    easing: 'linear',
-                    dynamicAnimation: {
-                        speed: 1000
-                    }
-                },
-                toolbar: {
-                    show: false
-                },
-                zoom: {
-                    enabled: false
-                }
-            },
-            xaxis: {
-                type: 'datetime',
-                range: 60 * 1000
-            },
-            yaxis: {
-                max: 100
-            }
-        });
-
-        chart.render();
-
-        return () => {
-            chart.destroy();
-        };
-    }, []);
-
-    const updateChart = (newData) => {
-        const chart = chartRef.current.chart;
-        const series = chart.getSeriesByName('Series 1');
-
-        const timestamp = new Date().getTime();
-        const lastValue = series.data.slice(-1)[0].y;
-        const newValue = Number(newData.slice(-1)[0]);
-
-        if (series.data.length >= 20) {
-            series.addPoint([timestamp, newValue], true, true, true);
-        } else {
-            series.addPoint([timestamp, newValue], true, false, true);
-        }
-
-        if (series.data.length > 1) {
-            const lastValue = series.data.slice(-2)[0].y;
-            const diff = Math.abs(newValue - lastValue);
-
-            if (diff > 10) {
-                series.updateSeries([{ color: '#f44336' }], true);
-            } else {
-                series.updateSeries([{ color: '#008FFB' }], true);
-            }
-        }
-    };
 
     if (loading) return <div>로딩중..</div>;
     if (error) return <div>에러가 발생했습니다</div>;
-    if (!users) return null;
-
-
-
+    if (!user || !userTen) return null;
 
     return (
         <>
-            <h1>{users.name}님의 페이지 Test</h1>
+            <h1>{user.name}님의 상세 페이지 </h1>
             <button type="button" onClick={start}>
                 시작
             </button>
-            <Box className="sparkboxes">
-                <Grid container spacing={1} >
-                    <Grid item xs >
-                        {/* <div className='box1' ref={chart1Ref}></div> */}
+            <h2>
+                {messages.length > 0 && (
+                    <div>
+                        <p>심박수{messages[messages.length - 1].heartRate}동기화 시간{messages[messages.length - 1].recordTime}</p>
+                    </div>
+                )}
+                <Box className="sparkboxes">
+                    <Grid container spacing={1} >
                     </Grid>
-                    <Grid item xs>
-                        <div className="col" ref={chartRef}></div>
+                    <Grid item xs={12} md={4}>
+                        <Chip color={user.temperature <= 35.0 ? 'warning' :
+                            user.temperature >= 37.3 ? 'error' : 'success'}
+                            label={user.temperature <= 35.0 ? '저체온' :
+                                user.temperature >= 37.3 ? '고열' : '정상체온'}
+                            sx={{
+                                px: '15px',
+                                color: 'black',
+                            }} />
+                        <CardContent>
+                            <Typography variant="body1">{user.temperature}℃
+                            </Typography>
+                            <Typography variant="body1" color="textSecondary">
+                            </Typography>
+                        </CardContent>
+                        <Box sx={{ width: 150 }}>
+                            <Slider
+                                color={user.temperature <= 35.0 ? 'warning' :
+                                    user.temperature >= 37.3 ? 'error' : 'success'}
+                                defaultValue={50 + (user.temperature - 36.5) * 30}
+                                getAriaValueText={(value) => `${value}`}
+                                step={10}
+                                marks={[
+                                    {
+                                        value: 0,
+                                        label: "25°C"
+                                    },
+
+                                    {
+                                        value: 50,
+                                        label: "36.5°C"
+                                    },
+                                    {
+                                        value: 100,
+                                        label: "40°C"
+                                    }
+                                ]}
+                            />
+                        </Box>
                     </Grid>
-                    {/* <Grid item xs>
-                        <div className='box2' ref={chart2Ref}></div>
-                    </Grid>
-                    <Grid item xs>
-                        <div className='box3' ref={chart3Ref}></div>
-                    </Grid>
-                    <Grid item xs>
-                        <div className='box4' ref={chart4Ref}></div>
-                    </Grid> */}
-                </Grid>
-            </Box>
+                </Box>
+                <Chart userTen={userTen} user={user} />
+            </h2>
+
+            {user && userTen.map((a, index) => (
+                <Typography variant="body1">
+                    {`심박수: ${a.heartRate} `}{`체온: ${a.temperature} `}{`산호포화도: ${a.o2} `} {`동기화 시간: ${a.recordTime}`}
+                </Typography>
+            ))}
+
         </>
 
 

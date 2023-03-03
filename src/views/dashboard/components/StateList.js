@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import DashboardCard from '../../../components/shared/DashboardCard';
 import React, { useMemo, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Mainchart from './Mainchart';
 import { styled } from '@mui/system';
 import {
@@ -29,15 +30,15 @@ import PageContainer from 'src/components/container/PageContainer';
 
 
 const StateList = () => {
-  let { users } = useSelector((state) => {
+  let { user } = useSelector((state) => {
     return state;
   });
-  const [data, setData] = useState(users);
+  const [data, setData] = useState(user);
   const [currentMember, setCurrentMember] = useState(1);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [filter, setFilter] = useState('위험');
+  const [filter, setFilter] = useState('All');
   const handleShowAll = () => {
-    setFilter('모든');
+    setFilter('All');
   };
   const handleShowNormal = () => {
     setFilter('정상');
@@ -50,11 +51,11 @@ const StateList = () => {
   };
 
 
-  const items = users.slice();
+  const items = user.slice();
   const updatedItem = { ...items[0], key: 'new value' };
   items[0] = updatedItem;
 
-
+  console.log(items)
   let resfilter = items;
 
   resfilter = (filter) => {
@@ -78,7 +79,11 @@ const StateList = () => {
   const handleCloseModal = () => {
     setModalIsOpen(false);
   };
+  const handleChage = (event, member) => {
+    navigate(`/healthinfo/${member.id}`);
+  };
 
+  const navigate = useNavigate();
 
   const CustomBackdrop = styled(Backdrop)(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
@@ -178,7 +183,7 @@ const StateList = () => {
                 </TableCell>
                 <TableCell>
                   <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                    {a.temp}
+                    {a.temperature}
                   </Typography>
                 </TableCell>
                 <TableCell>
@@ -193,6 +198,7 @@ const StateList = () => {
                   ></Chip>
                 </TableCell>
                 <TableCell>
+                  <Button variant="outlined" onClick={(e) => handleChage(e, a)}>이동</Button>
                   <Button variant="outlined" onClick={(e) => handleOpenModal(e, a)}>
                     조회
                   </Button>
@@ -238,25 +244,25 @@ const StateList = () => {
 
                         </Grid>
                         <Grid item xs={12} md={4}>
-                          <Chip color={currentMember.temp <= 35.0 ? 'warning' :
-                            currentMember.temp >= 37.3 ? 'error' : 'success'}
-                            label={currentMember.temp <= 35.0 ? '저체온' :
-                              currentMember.temp >= 37.3 ? '고체온' : '정상체온'}
+                          <Chip color={currentMember.temperature <= 35.0 ? 'warning' :
+                            currentMember.temperature >= 37.3 ? 'error' : 'success'}
+                            label={currentMember.temperature <= 35.0 ? '저체온' :
+                              currentMember.temperature >= 37.3 ? '고열' : '정상체온'}
                             sx={{
                               px: '15px',
                               color: 'black',
                             }} />
                           <CardContent>
-                            <Typography variant="h1">{currentMember.temp}℃
+                            <Typography variant="h1">{currentMember.temperature}℃
                             </Typography>
                             <Typography variant="body1" color="textSecondary">
                             </Typography>
                           </CardContent>
                           <Box sx={{ width: 150 }}>
                             <Slider
-                              color={currentMember.temp <= 35.0 ? 'warning' :
-                                currentMember.temp >= 37.3 ? 'error' : 'success'}
-                              defaultValue={50 + (currentMember.temp - 36.5) * 30}
+                              color={currentMember.temperature <= 35.0 ? 'warning' :
+                                currentMember.temperature >= 37.3 ? 'error' : 'success'}
+                              defaultValue={50 + (currentMember.temperature - 36.5) * 30}
                               getAriaValueText={(value) => `${value}`}
                               step={10}
                               marks={[
@@ -287,11 +293,9 @@ const StateList = () => {
                             </Typography>
                           </CardContent>
                         </Grid>
-                        <Grid item xs={12} md={12}>
-                          <Mainchart />
-                        </Grid>
                         <Grid item xs={12}>
                           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                            <Button component={Link} to="/page1">이동</Button>
                             <Button endIcon={<IconX />} variant="outlined" onClick={handleCloseModal}>
                               닫기
                             </Button>

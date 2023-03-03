@@ -19,7 +19,7 @@ const AuthRegister = ({ subtext, subtitle, onChange }) => {
 
         axios.post('/addMember', data, { params: data })
             .then((response) => {
-                console.log(response)
+                console.log(data)
             })
             .catch((error) => {
                 console.log(error);
@@ -41,7 +41,7 @@ const AuthRegister = ({ subtext, subtitle, onChange }) => {
                 />
                 <TextField
                     label="ID"
-                    name="id"
+                    name="adminId"
                     fullWidth
                     onChange={onChange}
                     variant="outlined"

@@ -10,13 +10,13 @@ import bcrypt from 'bcryptjs'; // bcrypt 추가
 const AuthLogin = ({ title, subtitle, subtext }) => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        id: '',
+        adminId: '',
         password: '',
     });
 
     const handleSubmit = async () => {
         try {
-            const res = await axios.get(`/login?id=${formData.id}`, {
+            const res = await axios.get(`/login?adminId=${formData.adminId}`, {
                 withCredentials: true // 쿠키를 전달할 수 있도록 설정
             });
             console.log('**res::', res.data)
@@ -56,10 +56,10 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
 
             <Stack>
                 <Box>
-                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="id" mb="5px">
+                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="adminId" mb="5px">
                         ID
                     </Typography>
-                    <CustomTextField id="id" name="id" variant="outlined" fullWidth onChange={handleChange} />
+                    <CustomTextField id="adminId" name="adminId" variant="outlined" fullWidth onChange={handleChange} />
                 </Box>
                 <Box mt="25px">
                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="password" mb="5px">

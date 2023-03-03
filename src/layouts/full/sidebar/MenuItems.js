@@ -28,7 +28,7 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: '낙상 위험감지?',
+    title: '웹소켓테스트',
     icon: IconAlertCircle,
     href: '/page2',
   },

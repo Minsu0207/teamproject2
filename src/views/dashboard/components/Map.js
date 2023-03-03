@@ -5,14 +5,14 @@ import { useSelector } from 'react-redux';
 
 
 function Map() {
-    let { users } = useSelector((state) => {
+    let { user } = useSelector((state) => {
         return state;
     });
     //데이터중 recordTime이 가장 최신값이 1개만 추출, 중복제거
-    const lastgps = Object.values(users.reduce((a, cur) => {
-        const { id, name, position, age, employedDate, contact, lat, lon, temp, o2, result, heartRate, steps, recordTime } = cur;
+    const lastgps = Object.values(user.reduce((a, cur) => {
+        const { id, name, position, age, employedDate, contact, lat, lon, temperature, o2, result, heartRate, steps, recordTime } = cur;
         if (!a[id] || a[id].recordTime < recordTime) {
-            a[id] = { id, name, age, position, employedDate, contact, lat, lon, temp, o2, result, heartRate, steps, recordTime };
+            a[id] = { id, name, age, position, employedDate, contact, lat, lon, temperature, o2, result, heartRate, steps, recordTime };
         }
         return a;
     }, {}));
@@ -33,7 +33,7 @@ function Map() {
                 content: `
                 <div>
                 <a>${a.name}님의 현재위치</a><br />
-                <a>체온 ${a.temp} 맥박수${a.heartRate}</a><br />
+                <a>체온 ${a.temperature} 맥박수${a.heartRate}</a><br />
                 </div>
                 <div style="text-align: center;">
                 <a style="text-align: center;">${a.result == 1 ? '🟢정상' : a.result == 2 ? '🟠주의' : '🚨위험 확인필요'}</a><br />
@@ -110,7 +110,7 @@ function Map() {
     return (
         <>
             <DashboardCard title="현장 근로자 위치">
-                <div id="map" style={{ width: '100%', height: '400px' }} />
+                <div id="map" style={{ width: '100%', height: '600px' }} />
             </DashboardCard>
         </>
     );

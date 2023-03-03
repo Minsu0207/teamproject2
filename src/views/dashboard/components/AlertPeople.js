@@ -1,6 +1,4 @@
-import DashboardCard from '../../../components/shared/DashboardCard';
 import { Alert, AlertTitle, Box, Fab, Grid, Stack, Typography, Avatar } from '@mui/material';
-import { useSelector } from 'react-redux';
 
 
 function AlertPeople() {
