@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { baselightTheme } from './theme/DefaultColors';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { getUsersList, getUserList } from './store';
+import { getWorkerList } from './store';
 import Error from './views/authentication/Error';
 
 const App = () => {
@@ -29,7 +29,7 @@ const App = () => {
     setLoading(false);
   };
 
-  const fetch = () => fetchData('/healthinfo/all', getUserList);
+  const fetch = () => fetchData('/healthinfo/all', getWorkerList);
   // const fetch1 = () => fetchData('/healthinfo/id:', getUserList);
 
 

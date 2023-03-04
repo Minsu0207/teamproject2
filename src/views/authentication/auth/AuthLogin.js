@@ -16,24 +16,22 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
 
     const handleSubmit = async () => {
         try {
-            const res = await axios.get(`/login?adminId=${formData.adminId}`, {
+            const res = await axios.get(`/login?id=${formData.adminId}`, {
                 withCredentials: true // 쿠키를 전달할 수 있도록 설정
             });
-            console.log('**res::', res.data)
             if (res.data.length === 0) {
                 throw new Error('Login failed');
             }
 
-            const hashedPassword = res.data[0].password; // 데이터베이스에서 해싱된 비밀번호 가져오기
+            const hashedPassword = res.data.password; // 데이터베이스에서 해싱된 비밀번호 가져오기
             const isMatch = await bcrypt.compare(formData.password, hashedPassword); // 입력받은 비밀번호와 비교
             if (!isMatch) {
                 throw new Error('Login failed');
             }
-            // alert(`${res.data[0].name}님 환영합니다! 메인페이지로 이동합니다`)
-            alert(`${res.data.adminId}님 환영합니다! 메인페이지로 이동합니다`)
+            alert(`${res.data.name}님 환영합니다! 메인페이지로 이동합니다`)
             navigate('/');
         } catch (e) {
-            // console.error(e);
+            console.error(e);
             console.log('로그인 실패')
             alert('로그인에 실패하였습니다.');
         }
@@ -74,7 +72,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
                         to="/"
                         fontWeight="500"
                         sx={{
-                            textDecoration: 'none', 
+                            textDecoration: 'none',
                             color: 'primary.main',
                         }}
                     >

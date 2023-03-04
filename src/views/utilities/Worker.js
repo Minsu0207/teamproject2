@@ -1,19 +1,76 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { React, useRef, useEffect, useState } from "react";
-import { Box, Grid, Chip, CardContent, Typography, Table } from '@mui/material';
+import { Box, Grid, Chip, CardContent, Typography, Button } from '@mui/material';
 import './styles.css';
 import Chart from "./Chart";
+import { makeStyles } from '@material-ui/core/styles';
+import styled from 'styled-components';
+import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+import { useSelector } from "react-redux";
+import {
+    IconAperture, IconCopy, IconUserSearch, IconAlertCircle, IconBrandReact, IconLayoutDashboard, IconLogin, IconMoodHappy, IconTypography, IconUserPlus
+} from '@tabler/icons';
 
+const useStyles = makeStyles({
+    head: {
+        backgroundColor: '#f5f5f5',
+    },
+    cell: {
+        padding: '16px 8px',
+        textAlign: 'center',
+    },
+});
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+`;
+
+
+
+const ViewButton = styled.button`
+  background: linear-gradient(45deg, #4158d0, #c850c0, #ffcc70);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+`;
+
+const Box20 = styled.div`
+  margin-top: 20px;
+  margin-bottom: 20px;
+`
 
 function Worker() {
     let { id } = useParams();
+    const [showButtons, setShowButtons] = useState(false);
+    const classes = useStyles();
     const [user, setUser] = useState(null);
     const [userTen, setUserTen] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [websocket, setWebsocket] = useState(null);
     const [messages, setMessages] = useState([]);
+    let { worker } = useSelector((state) => { return state; });
+
+    const handleViewClick = () => {
+        setShowButtons(true);
+    };
+
     useEffect(() => {
         if (!websocket) {
             return;
@@ -78,12 +135,11 @@ function Worker() {
     if (error) return <div>에러가 발생했습니다</div>;
     if (!user || !userTen) return null;
 
-    console.log(user);
-    console.log(userTen);
 
     const maxAge = userTen.reduce((prev, curr) => prev.heartRate > curr.heartRate ? prev : curr).heartRate;
     const MaxData = userTen.filter(i => i.heartRate === maxAge);
 
+    const sortedUserTen = [...userTen].sort((a, b) => new Date(b.recordTime) - new Date(a.recordTime));
     return (
         <>
             <Box>
@@ -131,29 +187,43 @@ function Worker() {
                 }
                 <Chart userTen={userTen} user={user} />
 
-                <Table>
-                    <thead>
-                        <tr>
-                            <th>동기화시간</th>
-                            <th>심박수</th>
-                            <th>체온</th>
-                            <th>산호포화도</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {userTen
-                            .sort((a, b) => new Date(b.recordTime) - new Date(a.recordTime))
+                <Table className={classes.table}>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell className={classes.cell}>동기화시간</TableCell>
+                            <TableCell className={classes.cell}>심박수</TableCell>
+                            <TableCell className={classes.cell}>체온</TableCell>
+                            <TableCell className={classes.cell}>산호포화도</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {sortedUserTen
                             .slice(0, 3)
                             .map((a, index) => (
-                                <tr key={index}>
-                                    <td>{a.recordTime}</td>
-                                    <td>{a.heartRate}</td>
-                                    <td>{a.temperature}</td>
-                                    <td>{a.o2}</td>
-                                </tr>
+                                <TableRow key={index}>
+                                    <TableCell className={classes.cell}>{a.recordTime}</TableCell>
+                                    <TableCell className={classes.cell}>{a.heartRate}</TableCell>
+                                    <TableCell className={classes.cell}>{a.temperature}</TableCell>
+                                    <TableCell className={classes.cell}>{a.o2}</TableCell>
+                                </TableRow>
                             ))}
-                    </tbody>
+                    </TableBody>
                 </Table>
+                <Box20 />
+
+
+
+                {showButtons ? (
+                    <ButtonContainer>
+                        {worker.map((a) => (
+                            <Button key={a.id} href={`/healthinfo/${a.id}`} variant="outlined" startIcon={<IconUserPlus />}>
+                                {a.name}
+                            </Button>
+                        ))}
+                    </ButtonContainer>
+                ) : (
+                    <ViewButton onClick={handleViewClick}>다른작업자보기</ViewButton>
+                )}
 
             </Box >
         </>

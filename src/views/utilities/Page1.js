@@ -9,16 +9,16 @@ import { styled } from '@mui/system';
 
 const Page1 = () => {
 
-  let { user } = useSelector((state) => { return state; });
+  let { worker } = useSelector((state) => { return state; });
 
   const navigate = useNavigate();
 
 
 
-  const [data, setData] = useState(user);
+  const [data, setData] = useState(worker);
   const [sortOrder, setSortOrder] = useState('asc'); // 정렬 방법 (asc, desc)
 
-  const items = user.slice();
+  const items = worker.slice();
   const updatedItem = { ...items[0], key: 'new value' };
   items[0] = updatedItem;
 

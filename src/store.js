@@ -14,15 +14,12 @@ const listReducer = (name) =>
     },
   });
 
-const user = listReducer('user');
-const users = listReducer('users');
+const worker = listReducer('worker');
 
 export default configureStore({
   reducer: {
-    user: user.reducer,
-    // users: users.reducer,
+    worker: worker.reducer,
   },
 });
 
-export const { setList: getUserList } = user.actions;
-// export const { setList: getUsersList } = users.actions;
+export const { setList: getWorkerList } = worker.actions;

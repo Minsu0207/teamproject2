@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
+    "@material-ui/core": "^4.12.4",
     "@mui/icons-material": "^5.10.9",
     "@mui/lab": "5.0.0-alpha.106",
     "@mui/material": "^5.10.12",
@@ -33,6 +34,7 @@
     "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
     "react-spring": "^9.2.4",
+    "styled-components": "^5.3.8",
     "stylis-plugin-rtl": "^2.0.2",
     "web-vitals": "^2.1.4",
     "websocket": "^1.0.34",

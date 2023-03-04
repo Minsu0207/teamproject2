@@ -1,39 +1,34 @@
 import { useSelector } from 'react-redux';
 import {
-  Typography,
-  Box,
-  Grid,
-  Table,
-  Modal,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Chip,
-  Button,
-  Backdrop,
-  CardContent,
-  Slider,
+  Typography, Box, Grid, Modal, Chip, Button,
+  Backdrop, CardContent, Slider,
 } from '@mui/material';
 import DashboardCard from '../../../components/shared/DashboardCard';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Mainchart from './Mainchart';
 import { styled } from '@mui/system';
 import {
-  IconUrgent,
-  IconMoodHappy,
-  IconMoodSick,
-  IconX
+  IconUrgent, IconMoodHappy, IconMoodSick, IconX
 } from '@tabler/icons';
 import PageContainer from 'src/components/container/PageContainer';
+import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  head: {
+    backgroundColor: '#f5f5f5',
+  },
+  cell: {
+    padding: '16px 8px',
+    textAlign: 'center',
+  },
+});
 
 
 const StateList = () => {
-  let { user } = useSelector((state) => {
-    return state;
-  });
-  const [data, setData] = useState(user);
+  let { worker } = useSelector((state) => { return state; });
+  const classes = useStyles();
+  const [data, setData] = useState(worker);
   const [currentMember, setCurrentMember] = useState(1);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [filter, setFilter] = useState('All');
@@ -51,7 +46,7 @@ const StateList = () => {
   };
 
 
-  const items = user.slice();
+  const items = worker.slice();
   const updatedItem = { ...items[0], key: 'new value' };
   items[0] = updatedItem;
 
@@ -122,7 +117,7 @@ const StateList = () => {
           위험
         </Button>
 
-        <Table
+        <Table className={classes.table}
           aria-label="simple table"
           sx={{
             whiteSpace: 'nowrap',
@@ -131,32 +126,32 @@ const StateList = () => {
         >
           <TableHead>
             <TableRow>
-              <TableCell>
+              <TableCell className={classes.cell} align="center">
                 <Typography variant="subtitle2" fontWeight={600}>
                   사원번호
                 </Typography>
               </TableCell>
-              <TableCell>
+              <TableCell className={classes.cell} align="center">
                 <Typography variant="subtitle2" fontWeight={600}>
                   이름
                 </Typography>
               </TableCell>
-              <TableCell>
+              <TableCell className={classes.cell} align="center">
                 <Typography variant="subtitle2" fontWeight={600}>
                   직책
                 </Typography>
               </TableCell>
-              <TableCell>
+              <TableCell className={classes.cell} align="center">
                 <Typography variant="subtitle2" fontWeight={600}>
                   체온
                 </Typography>
               </TableCell>
-              <TableCell>
+              <TableCell className={classes.cell} align="center">
                 <Typography variant="subtitle2" fontWeight={600}>
                   상태
                 </Typography>
               </TableCell>
-              <TableCell>
+              <TableCell className={classes.cell} align="center">
                 <Typography variant="subtitle2" fontWeight={600}>
                   상세정보
                 </Typography>
@@ -166,27 +161,27 @@ const StateList = () => {
           <TableBody>
             {resfilter(filter).map((a, i) => (
               <TableRow key={i}>
-                <TableCell>
+                <TableCell className={classes.cell} align="center">
                   <Typography variant="subtitle2" fontWeight={600}>
                     {a.id}
                   </Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell className={classes.cell} align="center">
                   <Typography variant="subtitle2" fontWeight={600}>
                     {a.name}
                   </Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell className={classes.cell} align="center">
                   <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
                     {a.position}
                   </Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell className={classes.cell} align="center">
                   <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
                     {a.temperature}
                   </Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell className={classes.cell} align="center">
                   <Chip
                     sx={{
                       px: '3px',
@@ -197,11 +192,9 @@ const StateList = () => {
                     label={a.result == 1 ? '정상' : a.result == 2 ? '주의' : '위험'}
                   ></Chip>
                 </TableCell>
-                <TableCell>
-                  <Button variant="outlined" onClick={(e) => handleChage(e, a)}>이동</Button>
-                  <Button variant="outlined" onClick={(e) => handleOpenModal(e, a)}>
-                    조회
-                  </Button>
+                <TableCell className={classes.cell} align="center">
+                  <Button variant="outlined" onClick={(e) => handleOpenModal(e, a)}>현재 정보</Button>
+                  <Button variant="outlined" onClick={(e) => handleChage(e, a)}>상세 정보</Button>
                 </TableCell>
                 <Modal
                   open={modalIsOpen}

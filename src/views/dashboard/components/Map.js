@@ -5,11 +5,12 @@ import { useSelector } from 'react-redux';
 
 
 function Map() {
-    let { user } = useSelector((state) => {
+    let { worker } = useSelector((state) => {
         return state;
     });
+
     //데이터중 recordTime이 가장 최신값이 1개만 추출, 중복제거
-    const lastgps = Object.values(user.reduce((a, cur) => {
+    const lastgps = Object.values(worker.reduce((a, cur) => {
         const { id, name, position, age, employedDate, contact, lat, lon, temperature, o2, result, heartRate, steps, recordTime } = cur;
         if (!a[id] || a[id].recordTime < recordTime) {
             a[id] = { id, name, age, position, employedDate, contact, lat, lon, temperature, o2, result, heartRate, steps, recordTime };
@@ -42,7 +43,9 @@ function Map() {
                 `
                 ,
                 latlng: new kakao.maps.LatLng(a.lat, a.lon),
-                result: a.result,
+                id: a.id,
+                result: a.result
+
             };
 
         });
@@ -84,28 +87,38 @@ function Map() {
             // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
             kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
             kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+            // 마커에 클릭이벤트를 등록합니다
+            kakao.maps.event.addListener(marker, 'click', move(infowindow, marker, positions[i]));
         }
+    }, []);
 
-        // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
-        function makeOverListener(map, marker, infowindow) {
-            return function () {
-                infowindow.open(map, marker);
-            };
+
+    //마커 클릭시 해당 작업자 상세보기
+    function move(positions, marker, clickedPosition) {
+        return function () {
+            if (clickedPosition) {
+                const { id } = clickedPosition;
+                const link = `/healthinfo/${id}`;
+                window.location.href = link;
+            }
         }
+    }
 
-        // 인포윈도우를 닫는 클로저를 만드는 함수입니다
-        function makeOutListener(infowindow) {
-            return function () {
-                infowindow.close();
-            };
-        }
-
-        // 마커에 클릭이벤트를 등록합니다
-        kakao.maps.event.addListener(marker, 'click', function () {
-            // 마커 위에 인포윈도우를 표시합니다
+    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
+    function makeOverListener(map, marker, infowindow) {
+        return function () {
             infowindow.open(map, marker);
-        });
-    });
+        };
+    }
+
+    // 인포윈도우를 닫는 클로저를 만드는 함수입니다
+    function makeOutListener(infowindow) {
+        return function () {
+            infowindow.close();
+        };
+    }
+
+
 
     return (
         <>
