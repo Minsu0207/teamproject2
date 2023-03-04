@@ -15,7 +15,7 @@ const PageContainer = ({ title, description, children }) => (
 PageContainer.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
-  // children: PropTypes.node,
+  children: PropTypes.node,
 };
 
 export default PageContainer;

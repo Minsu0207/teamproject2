@@ -1,6 +1,6 @@
 body {
   color: #777;
-  font-family: Montserrat, Arial, sans-serif;
+  /* font-family: Montserrat, Arial, sans-serif; */
 }
 
 .body-bg {
@@ -18,38 +18,33 @@ body {
 }
 
 .box {
-  background-color: #2b2d3e;
-  padding: 25px 20px;
+  /* background-color: #2b2d3e; */
+  /* padding: 25px 20px; */
 }
 
 .shadow {
-  box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+  box-shadow: 0px 2px 15px 2px rgba(69, 65, 78, 0.08);
 }
-.sparkboxes .box {
+.sparkboxes {
   padding-top: 10px;
   padding-bottom: 10px;
   text-shadow: 0 1px 1px 1px #666;
   box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
   position: relative;
   border-radius: 5px;
-}
-
-.sparkboxes .box .details {
-  position: absolute;
-  color: #fff;
-  transform: scale(0.7) translate(-22px, 20px);
-}
-.sparkboxes strong {
-  position: relative;
   z-index: 3;
-  top: -8px;
   color: #fff;
+  top: -10px;
+  background-color: #2b2d3e;
+  padding: 25px 20px;
+  font-family: Montserrat, Arial, sans-serif;
 }
 
 .sparkboxes .box1 {
   background-image: linear-gradient(135deg, #abdcff 10%, #0396ff 100%);
   align-items: center;
   justify-content: center;
+  font-family: Montserrat, Arial, sans-serif;
 }
 
 .sparkboxes .box2 {
@@ -72,11 +67,12 @@ body {
 
 .chart-text {
   position: relative;
-  top: 33px;
-  font-size: 20px;
-  color: #ffffff;
+  top: 40px;
+  margin-left: 5px;
+  color: #2b2d3e;
+  font: inherit;
+  font-style: italic;
+  font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
-  align-self: center;
-  /* margin-left: 16px; */
-  /* margin-top: 20px; */
+  font-size: 20px;
 }

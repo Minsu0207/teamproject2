@@ -2,7 +2,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { React, useRef, useEffect, useState } from "react";
 import ApexCharts from 'apexcharts';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import './styles.css';
 
 function Chart({ userTen, user }) {
@@ -127,25 +127,25 @@ function Chart({ userTen, user }) {
         <>
 
             <Box className="sparkboxes">
-                <Grid container spacing={1} >
-                    <Grid item xs={12} md={6} >
+                <Grid container spacing={4} >
+                    <Grid item xs={12} md={3} >
+                        <div variant="h5" className="chart-text">심박수 {user.heartRate}</div>
+                        <div className='box2' ref={chart4Ref}>
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} md={3} >
+                        <div variant="h5" className="chart-text">체온 {user.temperature}</div>
                         <div className='box1' ref={chart1Ref}>
-                            <div className="chart-text">체온<br />{user.temperature}</div>
                         </div>
                     </Grid>
-                    <Grid item xs={12} md={6} >
-                        <div className='box2' ref={chart2Ref}>
-                            <div className="chart-text">심박수 {user.heartRate}</div>
-                        </div>
-                    </Grid>
-                    <Grid item xs={12} md={6} >
+                    <Grid item xs={12} md={3} >
+                        <div variant="h5" className="chart-text">걸음수 {user.steps}</div>
                         <div className='box3' ref={chart3Ref}>
-                            <div className="chart-text">걸음수{user.steps}</div>
                         </div>
                     </Grid>
-                    <Grid item xs={12} md={6} >
-                        <div className='box4' ref={chart4Ref}>
-                            <div className="chart-text">산소포화도{user.o2}</div>
+                    <Grid item xs={12} md={3} >
+                        <div variant="h5" className="chart-text">산소포화도 {user.o2}</div>
+                        <div className='box4' ref={chart2Ref}>
                         </div>
                     </Grid>
                 </Grid>

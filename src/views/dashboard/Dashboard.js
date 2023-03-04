@@ -10,17 +10,15 @@ const Dashboard = () => {
   return (
     <PageContainer title="KeepMe - 스마트솔루션" description="this is Dashboard">
       <Box>
-        <Grid container spacing={4} >
+        <Grid container spacing={2} >
+          <Grid item xs={12} >
+            <AlertPeople />
+          </Grid>
           <Grid item xs={12} lg={6}>
             <StateList />
           </Grid>
           <Grid item xs={12} lg={6}>
             <Map />
-            <Grid item xs={12} >
-              <AlertPeople />
-            </Grid>
-          </Grid>
-          <Grid item xs>
           </Grid>
         </Grid>
       </Box>

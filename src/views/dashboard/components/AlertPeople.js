@@ -1,17 +1,44 @@
-import { Alert, AlertTitle, Box, Fab, Grid, Stack, Typography, Avatar } from '@mui/material';
-
+import { Box, Grid, Alert, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 function AlertPeople() {
+    let { user } = useSelector((state) => { return state; });
     return (
         <>
-            <Alert variant="filled" severity="warning">
-                <Typography variant="h3" fontWeight="500" >
-                    위험 의심 인원
-                </Typography>
-                <Typography variant="h4" fontWeight="500" >
-                    3명
-                </Typography>
-            </Alert>
+            <Box>
+                <Grid container spacing={1}>
+                    <Grid item xs={12} lg={4}>
+                        <Alert variant="outlined" severity="info" >
+                            <Typography variant="h4" fontWeight="500">
+                                전체 등록 인원
+                            </Typography>
+                            <Typography variant="h4" fontWeight="500">
+                                {user.length}
+                            </Typography>
+                        </Alert>
+                    </Grid>
+                    <Grid item xs={12} lg={4}>
+                        <Alert variant="outlined" severity="success" >
+                            <Typography variant="h4" fontWeight="500">
+                                현장 등록 인원
+                            </Typography>
+                            <Typography variant="h4" fontWeight="500">
+                                {user.length}
+                            </Typography>
+                        </Alert>
+                    </Grid>
+                    <Grid item xs={12} lg={4}>
+                        <Alert variant="outlined" severity="error">
+                            <Typography variant="h4" fontWeight="400">
+                                위험 의심 인원
+                            </Typography>
+                            <Typography variant="h4" fontWeight="500">
+                                4명
+                            </Typography>
+                        </Alert>
+                    </Grid>
+                </Grid>
+            </Box>
         </>
     )
 }

@@ -29,7 +29,8 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             if (!isMatch) {
                 throw new Error('Login failed');
             }
-            alert(`${res.data[0].name}님 환영합니다! 메인페이지로 이동합니다`)
+            // alert(`${res.data[0].name}님 환영합니다! 메인페이지로 이동합니다`)
+            alert(`${res.data.adminId}님 환영합니다! 메인페이지로 이동합니다`)
             navigate('/');
         } catch (e) {
             // console.error(e);
@@ -73,7 +74,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
                         to="/"
                         fontWeight="500"
                         sx={{
-                            textDecoration: 'none',
+                            textDecoration: 'none', 
                             color: 'primary.main',
                         }}
                     >
