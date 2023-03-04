@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { Grid, Box, Card, Stack, Typography } from '@mui/material';
 
 // components
-import PageContainer from 'src/components/container/PageContainer';
-import Logo from 'src/layouts/full/shared/logo/Logo';
-import AuthLogin from './auth/AuthLogin';
+import PageContainer from 'src/components/PageContainer';
+import Logo from 'src/components/Logo';
+import AuthLogin from './AuthLogin';
 
 const Login2 = () => {
 
@@ -43,7 +43,7 @@ const Login2 = () => {
               </Box>
               <AuthLogin
                 subtext={
-                  <Typography variant="subtitle2" textAlign="center" color="textSecondary" mb={1}>
+                  <Typography variant="subtitle1" textAlign="center" color="textSecondary" mb={1}>
                     로그인 해주세요.
                   </Typography>
                 }

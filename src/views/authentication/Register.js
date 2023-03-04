@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Grid, Box, Card, Typography, Stack, Button } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import PageContainer from 'src/components/container/PageContainer';
-import Logo from 'src/layouts/full/shared/logo/Logo';
-import AuthRegister from './auth/AuthRegister';
+import PageContainer from 'src/components/PageContainer';
+import Logo from 'src/components/Logo';
+import AuthRegister from './AuthRegister';
 import axios from 'axios';
 import bcrypt from 'bcryptjs'; // bcrypt 추가
 

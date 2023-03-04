@@ -16,10 +16,22 @@ const listReducer = (name) =>
 
 const worker = listReducer('worker');
 
+const user = createSlice({
+  name: 'user',
+  initialState: {},
+  reducers: {
+    setUser(state, action) {
+      return action.payload;
+    },
+  },
+});
+
 export default configureStore({
   reducer: {
     worker: worker.reducer,
+    user: user.reducer,
   },
 });
 
 export const { setList: getWorkerList } = worker.actions;
+export const { setUser: setLoggedInUser } = user.actions;
