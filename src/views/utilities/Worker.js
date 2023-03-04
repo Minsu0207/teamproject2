@@ -1,24 +1,10 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { React, useRef, useEffect, useState } from "react";
-import { Box, Grid, Chip, CardContent, Typography } from '@mui/material';
+import { Box, Grid, Chip, CardContent, Typography, Table } from '@mui/material';
 import './styles.css';
 import Chart from "./Chart";
-import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 
-const useStyles = makeStyles({
-    table: {
-        minWidth: 650,
-    },
-    head: {
-        backgroundColor: '#f5f5f5',
-    },
-    cell: {
-        padding: '16px 8px',
-        textAlign: 'center',
-    },
-});
 
 function Worker() {
     let { id } = useParams();
@@ -28,7 +14,6 @@ function Worker() {
     const [error, setError] = useState(null);
     const [websocket, setWebsocket] = useState(null);
     const [messages, setMessages] = useState([]);
-    const classes = useStyles();
     useEffect(() => {
         if (!websocket) {
             return;
@@ -146,28 +131,28 @@ function Worker() {
                 }
                 <Chart userTen={userTen} user={user} />
 
-                <Table className={classes.table}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell className={classes.head}>동기화 시간</TableCell>
-                            <TableCell className={classes.head}>심박수</TableCell>
-                            <TableCell className={classes.head}>체온</TableCell>
-                            <TableCell className={classes.head}>산호포화도</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>동기화시간</th>
+                            <th>심박수</th>
+                            <th>체온</th>
+                            <th>산호포화도</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {userTen
                             .sort((a, b) => new Date(b.recordTime) - new Date(a.recordTime))
                             .slice(0, 3)
                             .map((a, index) => (
-                                <TableRow key={index}>
-                                    <TableCell className={classes.cell}>{a.recordTime}</TableCell>
-                                    <TableCell className={classes.cell}>{a.heartRate}</TableCell>
-                                    <TableCell className={classes.cell}>{a.temperature}</TableCell>
-                                    <TableCell className={classes.cell}>{a.o2}</TableCell>
-                                </TableRow>
+                                <tr key={index}>
+                                    <td>{a.recordTime}</td>
+                                    <td>{a.heartRate}</td>
+                                    <td>{a.temperature}</td>
+                                    <td>{a.o2}</td>
+                                </tr>
                             ))}
-                    </TableBody>
+                    </tbody>
                 </Table>
 
             </Box >
