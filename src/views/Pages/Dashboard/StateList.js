@@ -197,6 +197,8 @@ const StateList = () => {
                 </TableCell>
                 <TableCell className={classes.cell} align="center">
                   <Button variant="outlined" onClick={(e) => handleOpenModal(e, a)}>현재 정보</Button>
+                </TableCell>
+                <TableCell className={classes.cell} align="center">
                   <Button variant="outlined" onClick={(e) => handleChage(e, a)}>상세 정보</Button>
                 </TableCell>
                 <Modal
@@ -258,7 +260,7 @@ const StateList = () => {
                             <Slider
                               color={currentMember.temperature <= 35.0 ? 'warning' :
                                 currentMember.temperature >= 37.3 ? 'error' : 'success'}
-                              defaultValue={50 + (currentMember.temperature - 36.5) * 30}
+                              defaultValue={50 + (currentMember.temperature - 36.5) * 10}
                               getAriaValueText={(value) => `${value}`}
                               step={10}
                               marks={[

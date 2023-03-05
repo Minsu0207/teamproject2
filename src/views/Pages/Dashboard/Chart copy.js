@@ -1,8 +1,9 @@
+import axios from "axios";
+import { useParams } from "react-router-dom";
 import { React, useRef, useEffect, useState } from "react";
 import ApexCharts from 'apexcharts';
 import { Box, Grid, Typography } from '@mui/material';
 import '../styles.css';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 function Chart({ userTen, user }) {
     const chart1Ref = useRef(null);
@@ -33,7 +34,6 @@ function Chart({ userTen, user }) {
 
     window.Apex = {
         chart: {
-            fontFamily: 'Titillium Web,IBM Plex Sans,Nanum Gothic,Montserrat,Noto Sans Korean',
             foreColor: '#ccc',
             toolbar: {
                 show: false
@@ -60,7 +60,6 @@ function Chart({ userTen, user }) {
 
     var spark1 = {
         chart: {
-            fontFamily: 'Titillium Web,IBM Plex Sans,Montserrat,Nanum Gothic,Noto Sans Korean',
             id: 'spark1',
             group: 'sparks',
             type: 'line',
@@ -128,8 +127,7 @@ function Chart({ userTen, user }) {
         },
         //colors: ["#3F51B5", '#2196F3'],
         title: {
-            text: 'Vital sign',
-            size: 100,
+            text: 'Media',
             align: 'left',
             offsetY: 25,
             offsetX: 20
@@ -152,16 +150,13 @@ function Chart({ userTen, user }) {
                 bottom: 0
             }
         },
-
-        labels: userTen.map(user => user.recordTime),
+        // labels: ['01/15/2002', '01/16/2002', '01/17/2002', '01/18/2002', '01/19/2002', '01/20/2002'],
         xaxis: {
-
             tooltip: {
                 enabled: false
             }
         },
         legend: {
-            showForSingleSeries: true,
             position: 'top',
             horizontalAlign: 'right',
             offsetY: -20
@@ -205,48 +200,40 @@ function Chart({ userTen, user }) {
 
     }, []);
 
-    const theme = createTheme({
-        typography: {
-            fontFamily:
-                'IBM Plex Sans,Titillium Web,Nanum Gothic,Montserrat,Noto Sans Korean'
-        },
-    })
+
 
     return (
         <>
-            <ThemeProvider theme={theme}>
-                <Box className="sparkboxes">
-                    <Grid container spacing={4} >
-                        <Grid item xs={12} md={3} >
-                            <div variant="h5" className="chart-text">심박수 {user.heartRate}</div>
-                            <div className='box1' ref={chart4Ref}>
-                            </div>
-                        </Grid>
-                        <Grid item xs={12} md={3} >
-                            <div variant="h5" className="chart-text">체온 {user.temperature}</div>
-                            <div className='box2' ref={chart1Ref}>
-                            </div>
-                        </Grid>
-                        <Grid item xs={12} md={3} >
-                            <div variant="h5" className="chart-text">산소포화도 {user.o2}</div>
-                            <div className='box4' ref={chart2Ref}>
-                            </div>
-                        </Grid>
-                        <Grid item xs={12} md={3} >
-                            <div variant="h5" className="chart-text">걸음수 {user.steps}</div>
-                            <div className='box3' ref={chart3Ref}>
-                            </div>
-                        </Grid>
 
+            <Box className="sparkboxes">
+                <Grid container spacing={4} >
+                    <Grid item xs={12} md={3} >
+                        <div variant="h5" className="chart-text">심박수 {user.heartRate}</div>
+                        <div className='box2' ref={chart4Ref}>
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} md={3} >
+                        <div variant="h5" className="chart-text">체온 {user.temperature}</div>
+                        <div className='box1' ref={chart1Ref}>
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} md={3} >
+                        <div variant="h5" className="chart-text">걸음수 {user.steps}</div>
+                        <div className='box3' ref={chart3Ref}>
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} md={3} >
+                        <div variant="h5" className="chart-text">산소포화도 {user.o2}</div>
+                        <div className='box4' ref={chart2Ref}>
+                        </div>
                     </Grid>
                     <Grid item xs={12} md={12} >
-                        <div className='' ref={chart5Ref}></div>
+                        <div variant="h5" className="chart-text">산소포화도 {user.o2}</div>
+                        <div className='' ref={chart5Ref}>
+                        </div>
                     </Grid>
-
-                    <Grid item xs={12} md={12} >
-                    </Grid>
-                </Box>
-            </ThemeProvider>
+                </Grid>
+            </Box>
         </>
 
     )

@@ -1,6 +1,24 @@
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: Pretendard-Regular, Montserrat, Arial, sans-serif;
+}
 body {
   color: #777;
-  /* font-family: Montserrat, Arial, sans-serif; */
+  font-family: PRETENDARD-Regular, Montserrat, Arial, sans-serif;
 }
 
 .body-bg {
@@ -41,38 +59,37 @@ body {
 }
 
 .sparkboxes .box1 {
-  background-image: linear-gradient(135deg, #abdcff 10%, #0396ff 100%);
+  background-image: linear-gradient(135deg, #4c83ff 10%, #2afadf 100%);
+  align-items: center;
+  justify-content: center;
+}
+
+.sparkboxes .box2 {
+  background-image: linear-gradient(135deg, #ffb88c 10%, #de6262 100%);
   align-items: center;
   justify-content: center;
   font-family: Montserrat, Arial, sans-serif;
 }
 
-.sparkboxes .box2 {
-  background-image: linear-gradient(135deg, #2afadf 10%, #4c83ff 100%);
-  align-items: center;
-  justify-content: center;
-}
-
 .sparkboxes .box3 {
-  background-image: linear-gradient(135deg, #ffd3a5 10%, #fd6585 100%);
+  background-image: linear-gradient(135deg, #5961f9 10%, #ee9ae5 100%);
   align-items: center;
   justify-content: center;
 }
 
 .sparkboxes .box4 {
-  background-image: linear-gradient(135deg, #ee9ae5 10%, #5961f9 100%);
+  background-image: linear-gradient(135deg, #a3cb38 10%, #86c5f3 100%);
   align-items: center;
   justify-content: center;
 }
 
 .chart-text {
   position: relative;
-  top: 25px;
-  margin-left: 5px;
-  color: #2b2d3e;
   font: inherit;
   font-style: italic;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
   font-size: 20px;
+  top: 25px;
+  margin-left: 5px;
+  color: rgb(255, 255, 255);
+  font-family: GmarketSansMedium, Pretendard-Regular, Helvetica, sans-serif;
 }

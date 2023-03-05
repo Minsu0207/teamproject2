@@ -11,16 +11,22 @@ import { useSelector } from "react-redux";
 import {
     IconAperture, IconCopy, IconUserSearch, IconAlertCircle, IconBrandReact, IconLayoutDashboard, IconLogin, IconMoodHappy, IconTypography, IconUserPlus
 } from '@tabler/icons';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 const useStyles = makeStyles({
+    table: {
+        color: 'white',
+    },
     head: {
         backgroundColor: '#f5f5f5',
     },
     cell: {
         padding: '16px 8px',
         textAlign: 'center',
+        fontSize: '1.2rem'
     },
 });
+
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -139,92 +145,120 @@ function Worker() {
     const MaxData = userTen.filter(i => i.heartRate === maxAge);
 
     const sortedUserTen = [...userTen].sort((a, b) => new Date(b.recordTime) - new Date(a.recordTime));
+
+
+    const theme = createTheme({
+        typography: {
+            fontFamily:
+                'Nanum Gothic,Montserrat,Noto Sans Korean,IBM Plex Sans,Titillium Web'
+        },
+    })
     return (
         <>
-            <Box>
-                <Grid container spacing={1}>
-                    <Grid item xs={12} lg={6}>
-                        <Typography variant="h1">
-                            {user.name}님의 상세 페이지
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12} lg={3}>
-                        <Typography>
-                            <Chip color={user.temperature <= 35.0 ? 'warning' :
-                                user.temperature >= 37.3 ? 'error' : 'success'}
-                                label={user.temperature <= 35.0 ? '저체온' :
-                                    user.temperature >= 37.3 ? '고열' : '정상체온'}
-                                sx={{
-                                    px: '15px',
-                                    color: 'white',
-                                }} />
-                            <CardContent>
-                                <Typography variant="h3">{user.temperature}℃
-                                </Typography>
-                            </CardContent>
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12} lg={3}>
-                        <Typography>
-                            <CardContent>
-                                <Typography variant="h4" component="span">{`현재 심박수 ${user.heartRate}`}
-                                    <Typography variant="h6" component="span"> bpm</Typography></Typography><br />
-                                <Typography variant="h4" component="span">{`최고 심박수 ${MaxData[0].heartRate}`}
-                                    <Typography variant="h6" component="span"> bpm</Typography></Typography>
-                            </CardContent>
-                        </Typography>
-                    </Grid>
-                </Grid>
+            <ThemeProvider theme={theme}>
 
-                {
-                    messages.length > 0 && (
-                        <Typography variant="h2">
-                            심박수{messages[messages.length - 1].heartRate}동기화 시간{messages[messages.length - 1].recordTime}
-                        </Typography>
+                <Box className="sparkboxes">
+                    <Grid container spacing={1}>
+                        <Grid item xs={12} lg={6}>
+                            <Typography variant="h3">
+                                {user.name}님의 상세 페이지
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} lg={3}>
+                            <Typography>
+                                <Chip color={user.temperature <= 35.0 ? 'warning' :
+                                    user.temperature >= 37.3 ? 'error' : 'success'}
+                                    label={user.temperature <= 35.0 ? '저체온' :
+                                        user.temperature >= 37.3 ? '고열' : '정상체온'}
+                                    sx={{
+                                        px: '15px',
+                                        color: 'white',
+                                    }} />
+                                <CardContent>
+                                    <Typography variant="h3">{user.temperature}℃
+                                    </Typography>
+                                </CardContent>
+                            </Typography>
+                        </Grid>
 
-                    )
-                }
-                <Chart userTen={userTen} user={user} />
+                        <Grid item xs={12} lg={3}>
+                            <Typography>
+                                <CardContent>
+                                    <Typography variant="h5" component="span">{`현재 심박수 ${user.heartRate}`}
+                                        <Typography variant="h6" component="span"> bpm</Typography></Typography><br />
+                                    <Typography variant="h5" component="span">{`최고 심박수 ${MaxData[0].heartRate}`}
+                                        <Typography variant="h6" component="span"> bpm</Typography></Typography>
+                                </CardContent>
+                            </Typography>
+                        </Grid>
+                    </Grid>
 
-                <Table className={classes.table}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell className={classes.cell}>동기화시간</TableCell>
-                            <TableCell className={classes.cell}>심박수</TableCell>
-                            <TableCell className={classes.cell}>체온</TableCell>
-                            <TableCell className={classes.cell}>산호포화도</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {sortedUserTen
-                            .slice(0, 3)
-                            .map((a, index) => (
-                                <TableRow key={index}>
-                                    <TableCell className={classes.cell}>{a.recordTime}</TableCell>
-                                    <TableCell className={classes.cell}>{a.heartRate}</TableCell>
-                                    <TableCell className={classes.cell}>{a.temperature}</TableCell>
-                                    <TableCell className={classes.cell}>{a.o2}</TableCell>
-                                </TableRow>
+                    {
+                        messages.length > 0 && (
+                            <Typography variant="h2">
+                                심박수{messages[messages.length - 1].heartRate}동기화 시간{messages[messages.length - 1].recordTime}
+                            </Typography>
+
+                        )
+                    }
+
+                    <Chart userTen={userTen} user={user} />
+
+                    <Table className={classes.table}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell className={classes.cell}>
+                                    <Typography sx={{ color: 'white' }}>최근 동기화시간</Typography>
+                                </TableCell>
+                                <TableCell className={classes.cell}>
+                                    <Typography sx={{ color: 'white' }}>심박수 </Typography>
+                                </TableCell>
+                                <TableCell className={classes.cell}>
+                                    <Typography sx={{ color: 'white' }}>체온 </Typography>
+                                </TableCell>
+                                <TableCell className={classes.cell}>
+                                    <Typography sx={{ color: 'white' }}>산호포화도 </Typography>
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody >
+                            {sortedUserTen
+                                .slice(0, 1)
+                                .map((a, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell className={classes.cell}>
+                                            <Typography sx={{ color: 'white' }}>{a.recordTime}</Typography>
+                                        </TableCell>
+                                        <TableCell className={classes.cell}>
+                                            <Typography sx={{ color: 'white' }}>{a.heartRate}</Typography>
+                                        </TableCell>
+                                        <TableCell className={classes.cell}>
+                                            <Typography sx={{ color: 'white' }}>{a.temperature}</Typography>
+                                        </TableCell>
+                                        <TableCell className={classes.cell}>
+                                            <Typography sx={{ color: 'white' }}>{a.o2}</Typography>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                        </TableBody>
+                    </Table>
+                    <Box20 />
+
+
+
+                    {showButtons ? (
+                        <ButtonContainer>
+                            {worker.map((a) => (
+                                <Button key={a.id} href={`/healthinfo/${a.id}`} variant="outlined" startIcon={<IconUserPlus />}>
+                                    {a.name}
+                                </Button>
                             ))}
-                    </TableBody>
-                </Table>
-                <Box20 />
-
-
-
-                {showButtons ? (
-                    <ButtonContainer>
-                        {worker.map((a) => (
-                            <Button key={a.id} href={`/healthinfo/${a.id}`} variant="outlined" startIcon={<IconUserPlus />}>
-                                {a.name}
-                            </Button>
-                        ))}
-                    </ButtonContainer>
-                ) : (
-                    <ViewButton onClick={handleViewClick}>다른작업자보기</ViewButton>
-                )}
-
-            </Box >
+                        </ButtonContainer>
+                    ) : (
+                        <ViewButton onClick={handleViewClick}>다른작업자보기</ViewButton>
+                    )}
+                </Box >
+            </ThemeProvider>
         </>
 
     )

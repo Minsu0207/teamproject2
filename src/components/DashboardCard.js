@@ -2,15 +2,7 @@ import React from 'react';
 import { Card, CardContent, Typography, Stack, Box } from '@mui/material';
 
 const DashboardCard = ({
-  title,
-  subtitle,
-  children,
-  action,
-  footer,
-  cardheading,
-  headtitle,
-  headsubtitle,
-  middlecontent,
+  title, subtitle, children, action, footer, cardheading, headtitle, headsubtitle, middlecontent,
 }) => {
 
   return (

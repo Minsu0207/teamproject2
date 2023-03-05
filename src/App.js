@@ -1,4 +1,4 @@
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { useRoutes } from 'react-router-dom';
 import Router from './Router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +15,7 @@ const App = () => {
   const routing = useRoutes(Router);
   const theme = baselightTheme;
   let dispatch = useDispatch();
+
 
 
   const fetchData = async (url, actionCreator) => {
@@ -42,6 +43,7 @@ const App = () => {
 
   if (loading) return <div>로딩중..</div>;
   if (error) return <Error />;
+
 
   return (
     <ThemeProvider theme={theme}>

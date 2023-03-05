@@ -1,6 +1,5 @@
 import { Box, Grid, Alert, Typography, Button } from '@mui/material';
 import { useSelector } from 'react-redux';
-
 function AlertPeople() {
     let { worker } = useSelector((state) => { return state; });
 
@@ -14,7 +13,7 @@ function AlertPeople() {
                                 전체 등록 인원
                             </Typography>
                             <Typography variant="h4" fontWeight="500">
-                                {worker.length}
+                                {worker.length} 명
                             </Typography>
                         </Alert>
                     </Grid>
@@ -24,7 +23,7 @@ function AlertPeople() {
                                 현장 등록 인원
                             </Typography>
                             <Typography variant="h4" fontWeight="500">
-                                {worker.length}
+                                {worker.length} 명
                             </Typography>
                         </Alert>
                     </Grid>
@@ -34,7 +33,7 @@ function AlertPeople() {
                                 위험 의심 인원
                             </Typography>
                             <Typography variant="h4" fontWeight="500">
-                                4명
+                                4 명
                             </Typography>
                         </Alert>
                     </Grid>
