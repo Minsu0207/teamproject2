@@ -4,7 +4,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import '../styles.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-function Chart({ userTen, user }) {
+function Chart({ userTen, users }) {
     const chart1Ref = useRef(null);
     const chart2Ref = useRef(null);
     const chart3Ref = useRef(null);
@@ -15,7 +15,6 @@ function Chart({ userTen, user }) {
     const o2Data = userTen.map(userTen => userTen.o2);
     const stepsData = userTen.map(userTen => userTen.steps);
     const heartRateData = userTen.map(userTen => userTen.heartRate);
-    console.log(userTen)
     const lineDate = [
         {
             name: "Heart Rate",
@@ -218,22 +217,22 @@ function Chart({ userTen, user }) {
                 <Box className="sparkboxes">
                     <Grid container spacing={4} >
                         <Grid item xs={12} md={3} >
-                            <div variant="h5" className="chart-text">심박수 {user.heartRate}</div>
+                            <div variant="h5" className="chart-text">심박수 {users.heartRate}</div>
                             <div className='box1' ref={chart4Ref}>
                             </div>
                         </Grid>
                         <Grid item xs={12} md={3} >
-                            <div variant="h5" className="chart-text">체온 {user.temperature}</div>
+                            <div variant="h5" className="chart-text">체온 {users.temperature}</div>
                             <div className='box2' ref={chart1Ref}>
                             </div>
                         </Grid>
                         <Grid item xs={12} md={3} >
-                            <div variant="h5" className="chart-text">산소포화도 {user.o2}</div>
+                            <div variant="h5" className="chart-text">산소포화도 {users.o2}</div>
                             <div className='box4' ref={chart2Ref}>
                             </div>
                         </Grid>
                         <Grid item xs={12} md={3} >
-                            <div variant="h5" className="chart-text">걸음수 {user.steps}</div>
+                            <div variant="h5" className="chart-text">걸음수 {users.steps}</div>
                             <div className='box3' ref={chart3Ref}>
                             </div>
                         </Grid>

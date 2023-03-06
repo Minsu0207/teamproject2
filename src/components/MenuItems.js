@@ -45,12 +45,6 @@ const Menuitems = () => {
       href: "/page2",
     },
     {
-      id: uniqueId(),
-      title: "Sample Page",
-      icon: IconCopy,
-      href: "/sample-page",
-    },
-    {
       navlabel: true,
       subheader: "Auth",
     },

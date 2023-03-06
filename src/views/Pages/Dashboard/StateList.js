@@ -151,12 +151,12 @@ const StateList = () => {
               </TableCell>
               <TableCell className={classes.cell} align="center">
                 <Typography variant="subtitle2" fontWeight={600}>
-                  간단정보
+                  간단보기
                 </Typography>
               </TableCell>
               <TableCell className={classes.cell} align="center">
                 <Typography variant="subtitle2" fontWeight={600}>
-                  상세정보
+                  상세보기
                 </Typography>
               </TableCell>
             </TableRow>
@@ -241,7 +241,7 @@ const StateList = () => {
 
 
                         </Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={12} md={4}  >
                           <Chip color={currentMember.temperature <= 35.0 ? 'warning' :
                             currentMember.temperature >= 37.3 ? 'error' : 'success'}
                             label={currentMember.temperature <= 35.0 ? '저체온' :
@@ -250,8 +250,8 @@ const StateList = () => {
                               px: '15px',
                               color: 'black',
                             }} />
-                          <CardContent>
-                            <Typography variant="h1">{currentMember.temperature}℃
+                          <CardContent >
+                            <Typography variant="h4">{currentMember.temperature}℃
                             </Typography>
                             <Typography variant="body1" color="textSecondary">
                             </Typography>
@@ -283,7 +283,7 @@ const StateList = () => {
                         </Grid>
                         <Grid item xs={12} md={4}>
                           <CardContent>
-                            <Typography variant="h4">산호포화도: {currentMember.o2}<br /><br />
+                            <Typography variant="h5">산소포화도: {currentMember.o2}<br /><br />
                               심박수: {currentMember.heartRate}<br /><br />
                               걸음수:{currentMember.steps}
                             </Typography>

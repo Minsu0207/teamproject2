@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, AppBar, Toolbar, styled, Stack, IconButton, Badge, Button } from '@mui/material';
+import { Box, AppBar, Toolbar, styled, Stack, IconButton, Typography, Badge, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 // components
@@ -61,7 +61,9 @@ const Header = (props) => {
         </IconButton>
         <Box flexGrow={1} />
         <Stack spacing={1} direction="row" alignItems="center">
-          {user && user.name ? `${user.name} 회원님` : null}
+          <Typography variant="h6" >
+            {user && user.name ? `${user.name} 회원님` : null}
+          </Typography>
           <Profile />
         </Stack>
       </ToolbarStyled>

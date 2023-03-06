@@ -53,7 +53,7 @@ function Page2() {
       <div className="col">
         {messages.map((a, index) => (
           <div key={index}>
-            <p>{a.name} {a.age}</p>
+            <p>{index} / {a.name} {a.age}</p>
 
           </div>
         ))}

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { React, useRef, useEffect, useState } from "react";
-import { Box, Grid, Chip, CardContent, Typography, Button } from '@mui/material';
+import { Box, Grid, Chip, CardContent, Typography, Button, Card } from '@mui/material';
 import './styles.css';
 import Chart from "./Dashboard/Chart";
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,9 +9,29 @@ import styled from 'styled-components';
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import { useSelector } from "react-redux";
 import {
-    IconAperture, IconCopy, IconUserSearch, IconAlertCircle, IconBrandReact, IconLayoutDashboard, IconLogin, IconMoodHappy, IconTypography, IconUserPlus
+    IconUserSearch
 } from '@tabler/icons';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+
+function useInterval(callback, delay) {
+    const savedCallback = useRef();
+
+    useEffect(() => {
+        savedCallback.current = callback;
+    }, [callback]);
+
+    useEffect(() => {
+        function tick() {
+            savedCallback.current();
+        }
+
+        if (delay !== null) {
+            let id = setInterval(tick, delay);
+            return () => clearInterval(id);
+        }
+    }, [delay]);
+}
 
 const useStyles = makeStyles({
     table: {
@@ -64,54 +84,81 @@ function Worker() {
     let { id } = useParams();
     const [showButtons, setShowButtons] = useState(false);
     const classes = useStyles();
-    const [user, setUser] = useState(null);
+    let [lastValue, setLastValue] = useState(null);
+    const [users, setUsers] = useState(null);
     const [userTen, setUserTen] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [websocket, setWebsocket] = useState(null);
     const [messages, setMessages] = useState([]);
+    const lastMessage = messages[messages.length - 1];
+    const newMessages = lastMessage ? [lastMessage] : [];
     let { worker } = useSelector((state) => { return state; });
+    let { user } = useSelector((state) => { return state; });
 
     const handleViewClick = () => {
         setShowButtons(true);
     };
 
-    // useEffect(() => {
-    //     if (!websocket) {
-    //         return;
-    //     }
+    useEffect(() => {
+        if (!websocket) {
+            return;
+        }
 
-    //     const onMessage = (msg) => {
-    //         const data = msg.data;
-    //         const newData = JSON.parse(data);
-    //         if (newData.id == Number(id)) {
-    //             const newMessages = [...messages, newData];
-    //             console.log(newMessages)
-    //             setMessages(newMessages);
-    //         }
-    //     };
+        const onMessage = (msg) => {
+            const data = msg.data;
+            const newData = JSON.parse(data);
+            if (newData.id == Number(id)) {
+                const newMessages = [...messages, newData];
+                // console.log(newMessages)
+                setMessages(newMessages);
+            }
+        };
 
-    //     websocket.onmessage = onMessage;
+        websocket.onmessage = onMessage;
 
-    //     return () => {
-    //         // websocket.close();
-    //     };
-    // }, [websocket, messages]);
+        return () => {
+            // websocket.close();
+        };
+    }, [websocket, messages]);
 
-    // const start = () => {
-    //     const newWebSocket = new WebSocket('ws://localhost:8081/ws/health');
-    //     console.log("start");
-    //     setWebsocket(newWebSocket);
-    // };
+    const start = () => {
+
+        const newWebSocket = new WebSocket('ws://localhost:8081/ws/health');
+        setWebsocket(newWebSocket);
+    };
+    useEffect(() => {
+        start();
+    }, [user]);
+
+
+    lastValue = null; // 이전  웹소켓값
+
+    useInterval(async () => {
+        const response = await fetch(`http://localhost:8081/healthpush/${id}`);
+        const newValue = await response.json();
+        if (newValue !== lastValue) {
+            console.log('new value:', newValue);
+            setLastValue(newValue);
+        }
+    }, 10000);
+
+    useEffect(() => {
+        if (lastValue !== null) {
+            // 이전 값이 null이 아닐 때만 실행
+            console.log('new value:', lastValue);
+        }
+    }, [lastValue]);
+
 
 
     const fetchUser = async () => {
         try {
             setError(null);
-            setUser(null);
+            setUsers(null);
             setLoading(true);
             const response = await axios.get(`/healthinfo/${id}`);
-            setUser(response.data);
+            setUsers(response.data);
         } catch (e) {
             setError(e);
         }
@@ -138,14 +185,14 @@ function Worker() {
 
     if (loading) return <div>로딩중..</div>;
     if (error) return <div>에러가 발생했습니다</div>;
-    if (!user || !userTen) return null;
+    if (!users || !userTen) return null;
 
 
-    const maxAge = userTen.reduce((prev, curr) => prev.heartRate > curr.heartRate ? prev : curr).heartRate;
-    const MaxData = userTen.filter(i => i.heartRate === maxAge);
+    const maxHeartRate = userTen.reduce((prev, curr) => prev.heartRate > curr.heartRate ? prev : curr).heartRate;
+    const MaxData = userTen.filter(i => i.heartRate === maxHeartRate);
 
     const sortedUserTen = [...userTen].sort((a, b) => new Date(b.recordTime) - new Date(a.recordTime));
-
+    console.log(sortedUserTen)
 
     const theme = createTheme({
         typography: {
@@ -153,56 +200,86 @@ function Worker() {
                 'Nanum Gothic,Montserrat,Noto Sans Korean,IBM Plex Sans,Titillium Web'
         },
     })
+
+
     return (
         <>
             <ThemeProvider theme={theme}>
-
                 <Box className="sparkboxes">
                     <Grid container spacing={1}>
                         <Grid item xs={12} lg={6}>
                             <Typography variant="h3">
-                                {user.name}님의 상세 페이지
+                                {users.name}님의 상세 페이지
                             </Typography>
+                            <Card sx={{
+                                minWidth: 200, bgcolor: 'transparent', color: '#fff',
+                                position: 'absolute', top: '50px', right: '50px'
+                            }}>
+                                <CardContent>
+                                    <Typography variant="body2">
+                                        Age: {users.age}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        Position: {users.position}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        Contact: {users.contact}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        Employed date: {users.employedDate}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
                         </Grid>
                         <Grid item xs={12} lg={3}>
-                            <Typography>
-                                <Chip color={user.temperature <= 35.0 ? 'warning' :
-                                    user.temperature >= 37.3 ? 'error' : 'success'}
-                                    label={user.temperature <= 35.0 ? '저체온' :
-                                        user.temperature >= 37.3 ? '고열' : '정상체온'}
+
+                        </Grid>
+
+                        <Grid item xs={12} lg={3}>
+
+                        </Grid>
+                    </Grid>
+
+                    <Grid container spacing={4}>
+                        <Grid item xs={12} lg={3}>
+                            <CardContent>
+                                {/* <Typography variant="h5" component="span">{`현재 심박수 ${user.heartRate}`}
+                                    <Typography variant="h6" component="span"> bpm</Typography></Typography><br /> */}
+                                <Typography variant="h5" component="span">{`최고 심박수 ${MaxData[0].heartRate}`}
+                                    <Typography variant="h6" component="span"> bpm</Typography></Typography>
+                            </CardContent>
+                        </Grid>
+                        <Grid item xs={12} lg={3}>
+                            <Typography sx={{ textAlign: 'center' }}>
+                                <Chip color={users.temperature <= 35.0 ? 'warning' :
+                                    users.temperature >= 37.3 ? 'error' : 'success'}
+                                    label={users.temperature <= 35.0 ? '저체온' :
+                                        users.temperature >= 37.3 ? '고열' : '정상체온'}
                                     sx={{
                                         px: '15px',
                                         color: 'white',
                                     }} />
-                                <CardContent>
-                                    <Typography variant="h3">{user.temperature}℃
-                                    </Typography>
-                                </CardContent>
                             </Typography>
+                        </Grid>
+                        <Grid item xs={12} lg={3}>
+                            <Typography sx={{ textAlign: 'center' }}>
+                                <Chip color={users.o2 >= 95 ? 'success' :
+                                    users.o2 >= 90 ? 'warning' : 'error'}
+                                    label={users.o2 >= 95 ? '정상' :
+                                        users.o2 >= 90 ? '저산소증주의' : '호흡곤란즉시확인'}
+                                    sx={{
+                                        px: '15px',
+                                        color: 'white',
+                                    }} />
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} lg={3}>
+
                         </Grid>
 
-                        <Grid item xs={12} lg={3}>
-                            <Typography>
-                                <CardContent>
-                                    <Typography variant="h5" component="span">{`현재 심박수 ${user.heartRate}`}
-                                        <Typography variant="h6" component="span"> bpm</Typography></Typography><br />
-                                    <Typography variant="h5" component="span">{`최고 심박수 ${MaxData[0].heartRate}`}
-                                        <Typography variant="h6" component="span"> bpm</Typography></Typography>
-                                </CardContent>
-                            </Typography>
-                        </Grid>
                     </Grid>
 
-                    {
-                        messages.length > 0 && (
-                            <Typography variant="h2">
-                                심박수{messages[messages.length - 1].heartRate}동기화 시간{messages[messages.length - 1].recordTime}
-                            </Typography>
-
-                        )
-                    }
-
-                    <Chart userTen={userTen} user={user} />
+                    <Chart userTen={userTen} users={users} />
 
                     <Table className={classes.table}>
                         <TableHead>
@@ -221,42 +298,43 @@ function Worker() {
                                 </TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody >
-                            {sortedUserTen
-                                .slice(0, 1)
-                                .map((a, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell className={classes.cell}>
-                                            <Typography sx={{ color: 'white' }}>{a.recordTime}</Typography>
-                                        </TableCell>
-                                        <TableCell className={classes.cell}>
-                                            <Typography sx={{ color: 'white' }}>{a.heartRate}</Typography>
-                                        </TableCell>
-                                        <TableCell className={classes.cell}>
-                                            <Typography sx={{ color: 'white' }}>{a.temperature}</Typography>
-                                        </TableCell>
-                                        <TableCell className={classes.cell}>
-                                            <Typography sx={{ color: 'white' }}>{a.o2}</Typography>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                        <TableBody>
+                            {newMessages.map((a, index) => (
+                                <TableRow key={index}>
+                                    <TableCell className={classes.cell}>
+                                        <Typography sx={{ color: 'white' }}>{a.recordTime}</Typography>
+                                    </TableCell>
+                                    <TableCell className={classes.cell}>
+                                        <Typography sx={{ color: 'white' }}>{a.heartRate}</Typography>
+                                    </TableCell>
+                                    <TableCell className={classes.cell}>
+                                        <Typography sx={{ color: 'white' }}>{a.temperature}</Typography>
+                                    </TableCell>
+                                    <TableCell className={classes.cell}>
+                                        <Typography sx={{ color: 'white' }}>{a.o2}</Typography>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                         </TableBody>
                     </Table>
-                    <Box20 />
+
+                    < Box20 />
 
 
-
-                    {showButtons ? (
-                        <ButtonContainer>
-                            {worker.map((a) => (
-                                <Button key={a.id} href={`/healthinfo/${a.id}`} variant="outlined" startIcon={<IconUserPlus />}>
-                                    {a.name}
-                                </Button>
-                            ))}
-                        </ButtonContainer>
-                    ) : (
-                        <ViewButton onClick={handleViewClick}>다른작업자보기</ViewButton>
-                    )}
+                    {
+                        showButtons ? (
+                            <ButtonContainer>
+                                {
+                                    worker.map((a) => (
+                                        <Button key={a.id} href={`/healthinfo/${a.id}`} variant="contained" startIcon={<IconUserSearch />}>
+                                            {a.name}
+                                        </Button>
+                                    ))
+                                }
+                            </ButtonContainer>
+                        ) : (
+                            <ViewButton onClick={handleViewClick}>다른작업자보기</ViewButton>
+                        )}
                 </Box >
             </ThemeProvider>
         </>

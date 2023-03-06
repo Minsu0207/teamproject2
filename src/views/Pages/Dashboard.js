@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Box } from '@mui/material';
 // components
-import AlertPeople from './Dashboard/AlertPeople';
+import AlertPeople from './Dashboard/WorkerList';
 import Map from './Dashboard/Map';
 import StateList from './Dashboard/StateList';
 import PageContainer from 'src/components/PageContainer';
