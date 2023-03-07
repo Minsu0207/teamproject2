@@ -4,7 +4,6 @@ import Router from './Router';
 import { useDispatch, useSelector } from 'react-redux';
 import { baselightTheme } from './theme/DefaultColors';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { getWorkerList } from './store';
 import Error from './views/authentication/Error';
@@ -33,13 +32,21 @@ const App = () => {
   };
 
   const fetch = () => fetchData('/healthinfo/all', getWorkerList);
-  // const fetch1 = () => fetchData('/healthinfo/id:', getUserList);
 
 
   useEffect(() => {
     fetch();
-    // fetch1();
   }, []);
+
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     fetch();
+  //   }, 1000);
+
+  //   return () => {
+  //     clearInterval(intervalId);
+  //   };
+  // }, []);
 
   if (loading) return <div>로딩중..</div>;
   if (error) return <Error />;

@@ -28,12 +28,12 @@ function WorkerList() {
                         </Alert>
                     </Grid>
                     <Grid item xs={12} lg={4}>
-                        <Alert variant="outlined" severity="error">
+                        <Alert variant="filled" severity="error">
                             <Typography variant="h5" fontWeight="400">
                                 위험 의심 인원
                             </Typography>
                             <Typography variant="h5" fontWeight="500">
-                                4 명
+                                3 명
                             </Typography>
                         </Alert>
                     </Grid>

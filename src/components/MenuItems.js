@@ -1,14 +1,5 @@
 import {
-  IconAperture,
-  IconCopy,
-  IconUserSearch,
-  IconAlertCircle,
-  IconBrandReact,
-  IconLayoutDashboard,
-  IconLogin,
-  IconMoodHappy,
-  IconTypography,
-  IconUserPlus,
+  IconAlertCircle, IconLayoutDashboard, IconLogin, IconUserPlus,
 } from "@tabler/icons";
 import { useSelector } from "react-redux";
 import { uniqueId } from "lodash";

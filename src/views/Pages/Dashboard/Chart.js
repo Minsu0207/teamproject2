@@ -4,17 +4,30 @@ import { Box, Grid, Typography } from '@mui/material';
 import '../styles.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-function Chart({ userTen, users }) {
+function Chart({ userTen, users, newMessages }) {
+
     const chart1Ref = useRef(null);
     const chart2Ref = useRef(null);
     const chart3Ref = useRef(null);
     const chart4Ref = useRef(null);
     const chart5Ref = useRef(null);
 
-    const temperatureData = userTen.map(userTen => userTen.temperature);
-    const o2Data = userTen.map(userTen => userTen.o2);
-    const stepsData = userTen.map(userTen => userTen.steps);
-    const heartRateData = userTen.map(userTen => userTen.heartRate);
+    const [userTen1, setUserTen1] = useState([]);
+
+    useEffect(() => {
+        if (newMessages.length > 0) {
+            const newTen = [...userTen, newMessages[0]];
+            setUserTen1(newTen.slice(-10));
+        }
+    }, [userTen1]);
+
+    console.log(userTen)
+    console.log(userTen1)
+
+    const temperatureData = userTen.map(a => a.temperature);
+    const o2Data = userTen.map(a => a.o2);
+    const stepsData = userTen.map(a => a.steps);
+    const heartRateData = userTen.map(a => a.heartRate);
     const lineDate = [
         {
             name: "Heart Rate",
@@ -63,7 +76,7 @@ function Chart({ userTen, users }) {
             id: 'spark1',
             group: 'sparks',
             type: 'line',
-            height: 80,
+            height: 95,
             sparkline: {
                 enabled: true
             },
@@ -108,7 +121,7 @@ function Chart({ userTen, users }) {
 
     var linechart = {
         chart: {
-            height: 328,
+            height: 378,
             type: 'line',
             zoom: {
                 enabled: false
@@ -128,14 +141,9 @@ function Chart({ userTen, users }) {
         //colors: ["#3F51B5", '#2196F3'],
         title: {
             text: 'Vital sign',
-            size: 100,
+            size: 40,
             align: 'left',
             offsetY: 25,
-            offsetX: 20
-        },
-        subtitle: {
-            text: 'Statistics',
-            offsetY: 55,
             offsetX: 20
         },
         markers: {
@@ -163,7 +171,7 @@ function Chart({ userTen, users }) {
             showForSingleSeries: true,
             position: 'top',
             horizontalAlign: 'right',
-            offsetY: -20
+            offsetY: 0
         }
     }
 
@@ -179,10 +187,10 @@ function Chart({ userTen, users }) {
     useEffect(() => {
 
         const renderCharts = () => {
-            const chart1 = new ApexCharts(chart1Ref.current, spark1);
-            const chart2 = new ApexCharts(chart2Ref.current, spark2);
-            const chart3 = new ApexCharts(chart3Ref.current, spark3);
-            const chart4 = new ApexCharts(chart4Ref.current, spark4);
+            const chart4 = new ApexCharts(chart1Ref.current, spark4);
+            const chart1 = new ApexCharts(chart2Ref.current, spark1);
+            const chart2 = new ApexCharts(chart3Ref.current, spark2);
+            const chart3 = new ApexCharts(chart4Ref.current, spark3);
             const chartLine = new ApexCharts(chart5Ref.current, line1);
             chart1.render();
             chart2.render();
@@ -217,32 +225,41 @@ function Chart({ userTen, users }) {
                 <Box className="sparkboxes">
                     <Grid container spacing={4} >
                         <Grid item xs={12} md={3} >
-                            <div variant="h5" className="chart-text">심박수 {users.heartRate}</div>
-                            <div className='box1' ref={chart4Ref}>
+                            <div variant="h5" className="chart-text">
+                                심박수 {newMessages.length === 0
+                                    ? `${users.heartRate}`
+                                    : `${newMessages[0]?.heartRate}`}</div>
+                            <div className='box1' ref={chart1Ref}>
                             </div>
                         </Grid>
                         <Grid item xs={12} md={3} >
-                            <div variant="h5" className="chart-text">체온 {users.temperature}</div>
-                            <div className='box2' ref={chart1Ref}>
+                            <div variant="h5" className="chart-text">
+                                체온{newMessages.length === 0
+                                    ? `${users.temperature}`
+                                    : `${newMessages[0]?.temperature}`}</div>
+                            <div className='box2' ref={chart2Ref}>
                             </div>
                         </Grid>
                         <Grid item xs={12} md={3} >
-                            <div variant="h5" className="chart-text">산소포화도 {users.o2}</div>
-                            <div className='box4' ref={chart2Ref}>
+                            <div variant="h5" className="chart-text">
+                                산소포화도{newMessages.length === 0
+                                    ? `${users.o2}`
+                                    : `${newMessages[0]?.o2}`}</div>
+                            <div className='box4' ref={chart3Ref}>
                             </div>
                         </Grid>
                         <Grid item xs={12} md={3} >
-                            <div variant="h5" className="chart-text">걸음수 {users.steps}</div>
-                            <div className='box3' ref={chart3Ref}>
+                            <div variant="h5" className="chart-text">
+                                걸음수{newMessages.length === 0
+                                    ? `${users.steps}`
+                                    : `${newMessages[0]?.steps}`}</div>
+                            <div className='box3' ref={chart4Ref}>
                             </div>
                         </Grid>
 
                     </Grid>
                     <Grid item xs={12} md={12} >
-                        <div className='' ref={chart5Ref}></div>
-                    </Grid>
-
-                    <Grid item xs={12} md={12} >
+                        <div className='box5' ref={chart5Ref}></div>
                     </Grid>
                 </Box>
             </ThemeProvider>

@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import { useSelector } from "react-redux";
 import {
-    IconUserSearch
+    IconUserSearch, IconHome
 } from '@tabler/icons';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
@@ -109,8 +109,9 @@ function Worker() {
             const data = msg.data;
             const newData = JSON.parse(data);
             if (newData.id == Number(id)) {
-                const newMessages = [...messages, newData];
-                // console.log(newMessages)
+                // if (newData.id != 1002) {
+                const newMessages = [newData, ...messages.slice(0, 7)];
+                console.log(newMessages)
                 setMessages(newMessages);
             }
         };
@@ -118,38 +119,19 @@ function Worker() {
         websocket.onmessage = onMessage;
 
         return () => {
-            // websocket.close();
+            websocket.close();
         };
     }, [websocket, messages]);
 
     const start = () => {
 
         const newWebSocket = new WebSocket('ws://localhost:8081/ws/health');
+        console.log("웹소켓 통신시작")
         setWebsocket(newWebSocket);
     };
     useEffect(() => {
         start();
     }, [user]);
-
-
-    lastValue = null; // 이전  웹소켓값
-
-    useInterval(async () => {
-        const response = await fetch(`http://localhost:8081/healthpush/${id}`);
-        const newValue = await response.json();
-        if (newValue !== lastValue) {
-            console.log('new value:', newValue);
-            setLastValue(newValue);
-        }
-    }, 10000);
-
-    useEffect(() => {
-        if (lastValue !== null) {
-            // 이전 값이 null이 아닐 때만 실행
-            console.log('new value:', lastValue);
-        }
-    }, [lastValue]);
-
 
 
     const fetchUser = async () => {
@@ -183,6 +165,7 @@ function Worker() {
         fetchUserTen();
     }, []);
 
+
     if (loading) return <div>로딩중..</div>;
     if (error) return <div>에러가 발생했습니다</div>;
     if (!users || !userTen) return null;
@@ -192,7 +175,6 @@ function Worker() {
     const MaxData = userTen.filter(i => i.heartRate === maxHeartRate);
 
     const sortedUserTen = [...userTen].sort((a, b) => new Date(b.recordTime) - new Date(a.recordTime));
-    console.log(sortedUserTen)
 
     const theme = createTheme({
         typography: {
@@ -200,7 +182,6 @@ function Worker() {
                 'Nanum Gothic,Montserrat,Noto Sans Korean,IBM Plex Sans,Titillium Web'
         },
     })
-
 
     return (
         <>
@@ -211,81 +192,117 @@ function Worker() {
                             <Typography variant="h3">
                                 {users.name}님의 상세 페이지
                             </Typography>
+
+
+                        </Grid>
+                        <Grid item xs={12} lg={3}>
+                            <Typography sx={{ textAlign: 'center', fontSize: '30px' }}>
+                                <Chip
+                                    color={
+                                        (users.temperature <= 35.0 || users.temperature >= 37.3 || users.o2 < 90)
+                                            ? 'error'
+                                            : (users.o2 < 95)
+                                                ? 'warning'
+                                                : 'success'
+                                    }
+                                    label={
+                                        (users.temperature <= 35.0)
+                                            ? '저체온'
+                                            : (users.temperature >= 37.3)
+                                                ? '고열'
+                                                : (users.o2 < 90)
+                                                    ? '호흡곤란즉시확인'
+                                                    : (users.o2 < 95)
+                                                        ? '저산소증주의'
+                                                        : '정상'
+                                    }
+                                    sx={{
+                                        px: '35px',
+                                        color: 'white',
+                                        fontSize: '20px',
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        height: '30px',
+                                        marginTop: '25px'
+                                    }}
+                                />
+                            </Typography>
+                        </Grid>
+
+                        <Grid item xs={12} lg={3}>
                             <Card sx={{
-                                minWidth: 200, bgcolor: 'transparent', color: '#fff',
-                                position: 'absolute', top: '50px', right: '50px'
+                                minWidth: 200,
+                                bgcolor: 'transparent',
+                                color: '#fff',
+                                top: '0px',
+                                right: '10px',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                                paddingBottom: '10px',
                             }}>
-                                <CardContent>
-                                    <Typography variant="body2">
-                                        Age: {users.age}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        Position: {users.position}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        Contact: {users.contact}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        Employed date: {users.employedDate}
-                                    </Typography>
-                                </CardContent>
+                                <Typography variant="body2">
+                                    Age: {users.age}
+                                </Typography>
+                                <Typography variant="body2">
+                                    Position: {users.position}
+                                </Typography>
+                                <Typography variant="body2">
+                                    Contact: {users.contact}
+                                </Typography>
+                                <Typography variant="body2">
+                                    Employed date: {users.employedDate}
+                                </Typography>
                             </Card>
                         </Grid>
-                        <Grid item xs={12} lg={3}>
-
-                        </Grid>
-
-                        <Grid item xs={12} lg={3}>
-
-                        </Grid>
                     </Grid>
-
-                    <Grid container spacing={4}>
-                        <Grid item xs={12} lg={3}>
-                            <CardContent>
-                                {/* <Typography variant="h5" component="span">{`현재 심박수 ${user.heartRate}`}
-                                    <Typography variant="h6" component="span"> bpm</Typography></Typography><br /> */}
-                                <Typography variant="h5" component="span">{`최고 심박수 ${MaxData[0].heartRate}`}
+                    {/* <CardContent>
+                        <Grid container spacing={1}>
+                            <Grid item xs={12} lg={3}>
+                                <Typography variant="h5" component="span">
+                                    {`최고 심박수 ${MaxData[0].heartRate}`}
                                     <Typography variant="h6" component="span"> bpm</Typography></Typography>
-                            </CardContent>
-                        </Grid>
-                        <Grid item xs={12} lg={3}>
-                            <Typography sx={{ textAlign: 'center' }}>
-                                <Chip color={users.temperature <= 35.0 ? 'warning' :
-                                    users.temperature >= 37.3 ? 'error' : 'success'}
-                                    label={users.temperature <= 35.0 ? '저체온' :
-                                        users.temperature >= 37.3 ? '고열' : '정상체온'}
-                                    sx={{
-                                        px: '15px',
-                                        color: 'white',
-                                    }} />
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} lg={3}>
-                            <Typography sx={{ textAlign: 'center' }}>
-                                <Chip color={users.o2 >= 95 ? 'success' :
-                                    users.o2 >= 90 ? 'warning' : 'error'}
-                                    label={users.o2 >= 95 ? '정상' :
-                                        users.o2 >= 90 ? '저산소증주의' : '호흡곤란즉시확인'}
-                                    sx={{
-                                        px: '15px',
-                                        color: 'white',
-                                    }} />
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} lg={3}>
 
+                            </Grid>
+                            <Grid item xs={12} lg={3}>
+                                <Typography sx={{ textAlign: 'center', fontSize: '30px' }}>
+
+                                    <Chip color={users.temperature <= 35.0 ? 'warning' :
+                                        users.temperature >= 37.3 ? 'error' : 'success'}
+                                        label={users.temperature <= 35.0 ? '저체온' :
+                                            users.temperature >= 37.3 ? '고열' : '정상체온'}
+                                        sx={{
+                                            px: '15px',
+                                            color: 'white',
+                                        }} />
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12} lg={3}>
+                                <Typography sx={{ textAlign: 'center' }}>
+                                    <Chip color={users.o2 >= 95 ? 'success' :
+                                        users.o2 >= 90 ? 'warning' : 'error'}
+                                        label={users.o2 >= 95 ? '정상' :
+                                            users.o2 >= 90 ? '저산소증주의' : '호흡곤란즉시확인'}
+                                        sx={{
+                                            px: '15px',
+                                            color: 'white',
+                                        }} />
+                                </Typography>
+                            </Grid>
                         </Grid>
+                    </CardContent> */}
 
-                    </Grid>
-
-                    <Chart userTen={userTen} users={users} />
+                    <Chart userTen={userTen} users={users} newMessages={newMessages} />
 
                     <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
                                 <TableCell className={classes.cell}>
                                     <Typography sx={{ color: 'white' }}>최근 동기화시간</Typography>
+                                </TableCell>
+                                <TableCell className={classes.cell}>
+                                    <Typography sx={{ color: 'white' }}>행동 분석</Typography>
                                 </TableCell>
                                 <TableCell className={classes.cell}>
                                     <Typography sx={{ color: 'white' }}>심박수 </Typography>
@@ -298,23 +315,28 @@ function Worker() {
                                 </TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody>
-                            {newMessages.map((a, index) => (
-                                <TableRow key={index}>
-                                    <TableCell className={classes.cell}>
-                                        <Typography sx={{ color: 'white' }}>{a.recordTime}</Typography>
-                                    </TableCell>
-                                    <TableCell className={classes.cell}>
-                                        <Typography sx={{ color: 'white' }}>{a.heartRate}</Typography>
-                                    </TableCell>
-                                    <TableCell className={classes.cell}>
-                                        <Typography sx={{ color: 'white' }}>{a.temperature}</Typography>
-                                    </TableCell>
-                                    <TableCell className={classes.cell}>
-                                        <Typography sx={{ color: 'white' }}>{a.o2}</Typography>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                        <TableBody >
+                            {sortedUserTen
+                                .slice(0, 1)
+                                .map((a, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell className={classes.cell}>
+                                            <Typography sx={{ color: 'white' }}>{a.recordTime}</Typography>
+                                        </TableCell>
+                                        <TableCell className={classes.cell}>
+                                            <Typography sx={{ color: 'white' }}>{a.status}</Typography>
+                                        </TableCell>
+                                        <TableCell className={classes.cell}>
+                                            <Typography sx={{ color: 'white' }}>{a.heartRate}</Typography>
+                                        </TableCell>
+                                        <TableCell className={classes.cell}>
+                                            <Typography sx={{ color: 'white' }}>{a.temperature}</Typography>
+                                        </TableCell>
+                                        <TableCell className={classes.cell}>
+                                            <Typography sx={{ color: 'white' }}>{a.o2}</Typography>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
                         </TableBody>
                     </Table>
 
@@ -333,7 +355,16 @@ function Worker() {
                                 }
                             </ButtonContainer>
                         ) : (
-                            <ViewButton onClick={handleViewClick}>다른작업자보기</ViewButton>
+                            <>
+                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <div>
+                                        <ViewButton onClick={handleViewClick}>다른작업자보기</ViewButton>
+                                    </div>
+                                    <div>
+                                        <Button startIcon={<IconHome />} variant="contained" href={'/home'}>홈으로</Button>
+                                    </div>
+                                </div>
+                            </>
                         )}
                 </Box >
             </ThemeProvider>

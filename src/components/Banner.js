@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 
 // import Logo2 from '/img/logo2'
-export const Upgrade = () => {
+export const Banner = () => {
     return (
         <Box
             display={'flex'}

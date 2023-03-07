@@ -82,6 +82,11 @@ body {
   align-items: center;
   justify-content: center;
 }
+.sparkboxes .box5 {
+  /* background-image: linear-gradient(135deg, #a3cb38 10%, #86c5f3 100%); */
+  align-items: center;
+  justify-content: center;
+}
 
 .chart-text {
   position: relative;

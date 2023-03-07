@@ -34,7 +34,6 @@ function Page2() {
   };
 
 
-
   return (
     <div>
       <button type="button" onClick={start}>
@@ -53,8 +52,7 @@ function Page2() {
       <div className="col">
         {messages.map((a, index) => (
           <div key={index}>
-            <p>{index} / {a.name} {a.age}</p>
-
+            <p>{`${index} 이름: ${a.name} 상태:${a.status} 체온: ${a.temperature} 심박수: ${a.heartRate}  산호포화도 :${a.o2} 동기화시간: ${a.recordTime}`}</p>
           </div>
         ))}
       </div>

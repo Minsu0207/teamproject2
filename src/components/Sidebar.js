@@ -1,7 +1,7 @@
 import { useMediaQuery, Box, Drawer } from '@mui/material';
 import Logo from './Logo';
 import SidebarItems from './SidebarItems';
-import { Upgrade } from './Updrade';
+import { Banner } from './Banner';
 
 const Sidebar = (props) => {
 
@@ -50,7 +50,7 @@ const Sidebar = (props) => {
               {/* Sidebar Items */}
               {/* ------------------------------------------- */}
               <SidebarItems />
-              <Upgrade />
+              <Banner />
             </Box>
 
           </Box>
@@ -82,7 +82,7 @@ const Sidebar = (props) => {
       {/* Sidebar For Mobile */}
       {/* ------------------------------------------- */}
       <SidebarItems />
-      <Upgrade />
+      <Banner />
     </Drawer>
   );
 };

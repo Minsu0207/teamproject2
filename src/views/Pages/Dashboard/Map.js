@@ -11,6 +11,7 @@ function Map() {
         return state;
     });
 
+
     //데이터중 recordTime이 가장 최신값이 1개만 추출, 중복제거
     const lastgps = Object.values(worker.reduce((a, cur) => {
         const { id, name, position, age, employedDate, contact, lat, lon, temperature, o2, result, heartRate, steps, recordTime } = cur;
@@ -20,6 +21,7 @@ function Map() {
         return a;
     }, {}));
 
+    console.log(worker)
     const { kakao } = window;
 
     useEffect(() => {
@@ -31,40 +33,52 @@ function Map() {
 
         let map = new window.kakao.maps.Map(container, options);
 
-        const positions = lastgps.map((a, i) => {
+
+        const positions = worker.map((a, i) => {
             return {
                 content: `
                 <div>
                 <a>${a.name}님의 현재위치</a><br />
                 <a>체온 ${a.temperature} 맥박수${a.heartRate}</a><br />
+                <a>클릭시 상세정보</a>
                 </div>
                 <div style="text-align: center;">
-                <a style="text-align: center;">${a.result == 1 ? '🟢정상' : a.result == 2 ? '🟠주의' : '🚨위험 확인필요'}</a><br />
                 </div>
                 
                 `
                 ,
                 latlng: new kakao.maps.LatLng(a.lat, a.lon),
                 id: a.id,
-                result: a.result
-
+                o2: a.o2,
+                temperature: a.temperature,
+                heartRate: a.heartRate,
+                status: a.status
             };
 
         });
 
 
-
-        for (var i = 0; i < positions.length; i++) {
+        for (var i = 0; i < worker.length; i++) {
             let imageSrc;
-            if (positions[i].result === 1) {
+            if (
+                worker[i].status === '정상' &&
+                worker[i].temperature >= 35.0 && worker[i].temperature <= 37.3 &&
+                worker[i].o2 >= 95
+            ) {
                 imageSrc = `${process.env.PUBLIC_URL}/img/hel1.png`;
-            } else if (positions[i].result === 2) {
+                //정상 마커
+            } else if (
+                worker[i].status === '넘어짐' ||
+                worker[i].temperature <= 35.0 || worker[i].temperature >= 37.3 ||
+                worker[i].o2 >= 90
+            ) {
                 imageSrc = `${process.env.PUBLIC_URL}/img/hel2.png`;
-            } else if (positions[i].result === 3) {
-                imageSrc = `${process.env.PUBLIC_URL}/img/hel3.png`;
+                //주의 마커
             } else {
-                imageSrc = `${process.env.PUBLIC_URL}/img/result3.png`;
+                imageSrc = `${process.env.PUBLIC_URL}/img/hel3.png`;
+                //위험 마커
             }
+
 
 
             var imageSize = new kakao.maps.Size(50, 50);
