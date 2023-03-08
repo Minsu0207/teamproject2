@@ -25,16 +25,16 @@ const Menuitems = () => {
       icon: IconLayoutDashboard,
       href: "/home",
     },
-    {
-      navlabel: true,
-      subheader: "Utilities",
-    },
-    {
-      id: uniqueId(),
-      title: "웹소켓테스트",
-      icon: IconAlertCircle,
-      href: "/page2",
-    },
+    // {
+    //   navlabel: true,
+    //   subheader: "Utilities",
+    // },
+    // {
+    //   id: uniqueId(),
+    //   title: "웹소켓테스트",
+    //   icon: IconAlertCircle,
+    //   href: "/page2",
+    // },
     {
       navlabel: true,
       subheader: "Auth",

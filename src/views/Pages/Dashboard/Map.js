@@ -61,22 +61,22 @@ function Map() {
         for (var i = 0; i < worker.length; i++) {
             let imageSrc;
             if (
-                worker[i].status === '정상' &&
-                worker[i].temperature >= 35.0 && worker[i].temperature <= 37.3 &&
-                worker[i].o2 >= 95
+                worker[i].status === '낙상' ||
+                worker[i].temperature > 37.3 ||
+                worker[i].o2 < 90
             ) {
-                imageSrc = `${process.env.PUBLIC_URL}/img/hel1.png`;
-                //정상 마커
+                imageSrc = `${process.env.PUBLIC_URL}/img/hel3.png`;
+                //위험 마커
             } else if (
                 worker[i].status === '넘어짐' ||
-                worker[i].temperature <= 35.0 || worker[i].temperature >= 37.3 ||
-                worker[i].o2 >= 90
+                worker[i].temperature <= 35.0 ||
+                worker[i].o2 >= 90 && worker[i].o2 < 95
             ) {
                 imageSrc = `${process.env.PUBLIC_URL}/img/hel2.png`;
                 //주의 마커
             } else {
-                imageSrc = `${process.env.PUBLIC_URL}/img/hel3.png`;
-                //위험 마커
+                imageSrc = `${process.env.PUBLIC_URL}/img/hel1.png`;
+                //정상 마커
             }
 
 
@@ -138,7 +138,8 @@ function Map() {
 
     return (
         <>
-            <DashboardCard title="현장 근로자 위치">
+            <DashboardCard title="현장 근로자 위치" subtitle="우동2구역 주택재개발정비사업">
+
                 <div id="map" style={{ width: '100%', height: '600px' }} />
             </DashboardCard>
         </>

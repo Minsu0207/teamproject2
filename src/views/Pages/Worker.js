@@ -125,7 +125,7 @@ function Worker() {
 
     const start = () => {
 
-        const newWebSocket = new WebSocket('ws://localhost:8081/ws/health');
+        const newWebSocket = new WebSocket('ws://10.164.125.171:8081/ws/health');
         console.log("웹소켓 통신시작")
         setWebsocket(newWebSocket);
     };
@@ -183,37 +183,41 @@ function Worker() {
         },
     })
 
+
+
     return (
         <>
             <ThemeProvider theme={theme}>
                 <Box className="sparkboxes">
                     <Grid container spacing={1}>
                         <Grid item xs={12} lg={6}>
-                            <Typography variant="h3">
-                                {users.name}님의 상세 페이지
+                            <Typography variant="h4" component="div">
+                                {users.name}
+                                <Typography variant="h6" component="span">
+                                    님의 상세 페이지
+                                </Typography>
                             </Typography>
-
-
                         </Grid>
-                        <Grid item xs={12} lg={3}>
-                            <Typography sx={{ textAlign: 'center', fontSize: '30px' }}>
+
+                        <Grid item xs={12} lg={3} container direction="column" alignItems="center" spacing={2}>
+                            <Grid item>
                                 <Chip
                                     color={
-                                        (users.temperature <= 35.0 || users.temperature >= 37.3 || users.o2 < 90)
+                                        (users.temperature > 37.3 || users.o2 < 90)
                                             ? 'error'
-                                            : (users.o2 < 95)
+                                            : (users.o2 < 95 || users.temperature <= 35.0)
                                                 ? 'warning'
                                                 : 'success'
                                     }
                                     label={
                                         (users.temperature <= 35.0)
                                             ? '저체온'
-                                            : (users.temperature >= 37.3)
+                                            : (users.temperature > 37.3)
                                                 ? '고열'
                                                 : (users.o2 < 90)
-                                                    ? '호흡곤란즉시확인'
+                                                    ? '호흡곤란'
                                                     : (users.o2 < 95)
-                                                        ? '저산소증주의'
+                                                        ? '저산소증'
                                                         : '정상'
                                     }
                                     sx={{
@@ -223,11 +227,30 @@ function Worker() {
                                         display: 'inline-flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
-                                        height: '30px',
-                                        marginTop: '25px'
+                                        height: '25px',
+                                        marginTop: '0px',
+                                        textAlign: 'center',
+                                        width: '170px'
                                     }}
                                 />
-                            </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Chip
+                                    label={users.status}
+                                    color={users.status === '넘어짐' ? 'warning' : users.status === '낙상' ? 'error' : 'success'}
+                                    sx={{
+                                        px: '35px',
+                                        color: 'white',
+                                        fontSize: '20px',
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        height: '25px',
+                                        textAlign: 'center',
+                                        width: '170px'
+                                    }}
+                                />
+                            </Grid>
                         </Grid>
 
                         <Grid item xs={12} lg={3}>
@@ -255,6 +278,8 @@ function Worker() {
                                     Employed date: {users.employedDate}
                                 </Typography>
                             </Card>
+
+
                         </Grid>
                     </Grid>
                     {/* <CardContent>

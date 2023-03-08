@@ -50,21 +50,21 @@ const StateList = () => {
   resfilter = (filter) => {
     if (filter === '정상') {
       return items.filter((user) => {
-        const tempStatus = (user.temperature >= 35.0 && user.temperature < 37.3) ? 1 : 0;
-        const o2Status = (user.o2 >= 95) ? 1 : (user.o2 >= 90) ? 2 : 3;
+        const tempStatus = (user.temperature >= 35.0 && user.temperature <= 37.3) ? 1 : 0;
+        const o2Status = (user.o2 >= 95) ? 1 : 0;
         return (tempStatus === 1 && o2Status === 1);
       });
     } else if (filter === '주의') {
       return items.filter((user) => {
-        const tempStatus = (user.temperature >= 35.0 && user.temperature < 37.3) ? 1 : 0;
+        const tempStatus = (user.temperature > 35 && user.temperature <= 37.3) ? 1 : 0;
         const o2Status = (user.o2 >= 95) ? 1 : (user.o2 >= 90) ? 2 : 3;
         return (tempStatus === 1 && o2Status === 2);
       });
     } else if (filter === '위험') {
       return items.filter((user) => {
-        const tempStatus = (user.temperature >= 35.0 && user.temperature < 37.3) ? 1 : 0;
+        const tempStatus = (user.temperature < 35.0 || user.temperature > 37.3) ? 1 : 0;
         const o2Status = (user.o2 >= 95) ? 1 : (user.o2 >= 90) ? 2 : 3;
-        return (tempStatus === 0 || o2Status === 3);
+        return (tempStatus === 1 || o2Status === 3);
       });
     } else {
       return items;
@@ -77,6 +77,7 @@ const StateList = () => {
 
   const navigate = useNavigate();
 
+  console.log(items)
 
   return (
     <DashboardCard title={`${filter} 작업자 리스트`}>
@@ -181,16 +182,16 @@ const StateList = () => {
                 <TableCell className={classes.cell} align="center">
                   <Chip
                     color={
-                      (a.temperature <= 35.0 || a.temperature >= 37.3 || a.o2 < 90)
+                      (a.temperature > 37.3 || a.o2 < 90)
                         ? 'error'
-                        : (a.o2 < 95)
+                        : (a.temperature <= 35.0 || a.o2 < 95)
                           ? 'warning'
                           : 'success'
                     }
                     label={
                       (a.temperature <= 35.0)
                         ? '저체온'
-                        : (a.temperature >= 37.3)
+                        : (a.temperature > 37.3)
                           ? '고열'
                           : (a.o2 < 90)
                             ? '호흡곤란'
@@ -201,11 +202,21 @@ const StateList = () => {
                     sx={{
                       px: '15px',
                       color: 'white',
+                      width: '105px'
                     }}
                   />
                 </TableCell>
                 <TableCell className={classes.cell} align="center">
-                  <IconFall></IconFall>{a.status}
+                  <Chip
+                    label={a.status}
+                    color={a.status == '넘어짐' ? 'warning' : a.status == '낙상' ? 'error' : 'success'}
+                    sx={{
+                      px: '15px',
+                      color: 'white',
+                      width: '100px'
+
+                    }}
+                  />
                 </TableCell>
                 <TableCell className={classes.cell} align="center">
                   <Button variant="outlined" onClick={(e) => handleChage(e, a)}>상세 정보</Button>

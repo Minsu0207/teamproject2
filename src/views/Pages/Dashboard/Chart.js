@@ -226,37 +226,36 @@ function Chart({ userTen, users, newMessages }) {
                     <Grid container spacing={4} >
                         <Grid item xs={12} md={3} >
                             <div variant="h5" className="chart-text">
-                                심박수 {newMessages.length === 0
-                                    ? `${users.heartRate}`
-                                    : `${newMessages[0]?.heartRate}`}</div>
+                                <span style={{ fontSize: '20px' }}>심박수 {users.heartRate}</span>
+                                <span style={{ fontSize: '15px', marginLeft: '5px' }}>bpm</span>
+                            </div>
                             <div className='box1' ref={chart1Ref}>
                             </div>
                         </Grid>
                         <Grid item xs={12} md={3} >
                             <div variant="h5" className="chart-text">
-                                체온{newMessages.length === 0
-                                    ? `${users.temperature}`
-                                    : `${newMessages[0]?.temperature}`}</div>
+                                <span style={{ fontSize: '20px' }}>체온 {users.temperature}</span>
+                                <span style={{ fontSize: '15px', marginLeft: '5px' }}>°C</span>
+                            </div>
                             <div className='box2' ref={chart2Ref}>
                             </div>
                         </Grid>
                         <Grid item xs={12} md={3} >
                             <div variant="h5" className="chart-text">
-                                산소포화도{newMessages.length === 0
-                                    ? `${users.o2}`
-                                    : `${newMessages[0]?.o2}`}</div>
+                                <span style={{ fontSize: '20px' }}>산소포화도 {users.o2}</span>
+                                <span style={{ fontSize: '15px', marginLeft: '5px' }}>%</span>
+                            </div>
                             <div className='box4' ref={chart3Ref}>
                             </div>
                         </Grid>
                         <Grid item xs={12} md={3} >
                             <div variant="h5" className="chart-text">
-                                걸음수{newMessages.length === 0
-                                    ? `${users.steps}`
-                                    : `${newMessages[0]?.steps}`}</div>
+                                <span style={{ fontSize: '20px' }}>걸음수 {users.steps}</span>
+                                <span style={{ fontSize: '15px', marginLeft: '5px' }}>step</span>
+                            </div>
                             <div className='box3' ref={chart4Ref}>
                             </div>
                         </Grid>
-
                     </Grid>
                     <Grid item xs={12} md={12} >
                         <div className='box5' ref={chart5Ref}></div>

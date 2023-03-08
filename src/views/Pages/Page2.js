@@ -28,7 +28,7 @@ function Page2() {
   }, [websocket, messages]);
 
   const start = () => {
-    const newWebSocket = new WebSocket('ws://localhost:8081/ws/health');
+    const newWebSocket = new WebSocket('ws://10.125.121.171:8081/ws/health');
     console.log("start");
     setWebsocket(newWebSocket);
   };
