@@ -100,38 +100,38 @@ function Worker() {
         setShowButtons(true);
     };
 
-    useEffect(() => {
-        if (!websocket) {
-            return;
-        }
+    // useEffect(() => {
+    //     if (!websocket) {
+    //         return;
+    //     }
 
-        const onMessage = (msg) => {
-            const data = msg.data;
-            const newData = JSON.parse(data);
-            if (newData.id == Number(id)) {
-                // if (newData.id != 1002) {
-                const newMessages = [newData, ...messages.slice(0, 7)];
-                console.log(newMessages)
-                setMessages(newMessages);
-            }
-        };
+    //     const onMessage = (msg) => {
+    //         const data = msg.data;
+    //         const newData = JSON.parse(data);
+    //         if (newData.id == Number(id)) {
+    //             // if (newData.id != 1002) {
+    //             const newMessages = [newData, ...messages.slice(0, 7)];
+    //             console.log(newMessages)
+    //             setMessages(newMessages);
+    //         }
+    //     };
 
-        websocket.onmessage = onMessage;
+    //     websocket.onmessage = onMessage;
 
-        return () => {
-            websocket.close();
-        };
-    }, [websocket, messages]);
+    //     return () => {
+    //         websocket.close();
+    //     };
+    // }, [websocket, messages]);
 
-    const start = () => {
+    // const start = () => {
 
-        const newWebSocket = new WebSocket('ws://10.164.125.171:8081/ws/health');
-        console.log("웹소켓 통신시작")
-        setWebsocket(newWebSocket);
-    };
-    useEffect(() => {
-        start();
-    }, [user]);
+    //     const newWebSocket = new WebSocket('ws://10.164.125.171:8081/ws/health');
+    //     console.log("웹소켓 통신시작")
+    //     setWebsocket(newWebSocket);
+    // };
+    // useEffect(() => {
+    //     start();
+    // }, [user]);
 
 
     const fetchUser = async () => {
@@ -236,7 +236,12 @@ function Worker() {
                             </Grid>
                             <Grid item>
                                 <Chip
-                                    label={users.status}
+                                    label={
+                                        users.status === '정상' ? '정상' :
+                                            users.status === '넘어짐' ? '넘어짐' :
+                                                users.status === '낙상' ? '낙상 예상' :
+                                                    users.status
+                                    }
                                     color={users.status === '넘어짐' ? 'warning' : users.status === '낙상' ? 'error' : 'success'}
                                     sx={{
                                         px: '35px',
@@ -349,7 +354,7 @@ function Worker() {
                                             <Typography sx={{ color: 'white' }}>{a.recordTime}</Typography>
                                         </TableCell>
                                         <TableCell className={classes.cell}>
-                                            <Typography sx={{ color: 'white' }}>{a.status}</Typography>
+                                            <Typography sx={{ color: 'white' }}>{a.status} 예상</Typography>
                                         </TableCell>
                                         <TableCell className={classes.cell}>
                                             <Typography sx={{ color: 'white' }}>{a.heartRate}</Typography>

@@ -50,26 +50,30 @@ const StateList = () => {
   resfilter = (filter) => {
     if (filter === '정상') {
       return items.filter((user) => {
+        const status = (user.status === '정상') ? 1 : 0;
         const tempStatus = (user.temperature >= 35.0 && user.temperature <= 37.3) ? 1 : 0;
         const o2Status = (user.o2 >= 95) ? 1 : 0;
-        return (tempStatus === 1 && o2Status === 1);
+        return (status === 1 && tempStatus === 1 && o2Status === 1);
       });
     } else if (filter === '주의') {
       return items.filter((user) => {
-        const tempStatus = (user.temperature > 35 && user.temperature <= 37.3) ? 1 : 0;
+        const status = (user.status === '넘어짐') ? 1 : 0;
+        const tempStatus = (user.temperature < 37.3) ? 1 : 0;
         const o2Status = (user.o2 >= 95) ? 1 : (user.o2 >= 90) ? 2 : 3;
-        return (tempStatus === 1 && o2Status === 2);
+        return (status === 1 || (tempStatus === 1 && o2Status === 2));
       });
     } else if (filter === '위험') {
       return items.filter((user) => {
-        const tempStatus = (user.temperature < 35.0 || user.temperature > 37.3) ? 1 : 0;
+        const status = (user.status === '낙상') ? 1 : 0;
+        const tempStatus = (user.temperature > 37.3) ? 1 : 0;
         const o2Status = (user.o2 >= 95) ? 1 : (user.o2 >= 90) ? 2 : 3;
-        return (tempStatus === 1 || o2Status === 3);
+        return (status === 1 || tempStatus === 1 || o2Status === 3);
       });
     } else {
       return items;
     }
   };
+  console.log(items)
 
   const handleChage = (event, member) => {
     navigate(`/healthinfo/${member.id}`);

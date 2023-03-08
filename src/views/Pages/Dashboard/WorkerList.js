@@ -33,7 +33,7 @@ function WorkerList() {
                                 위험 의심 인원
                             </Typography>
                             <Typography variant="h5" fontWeight="500">
-                                3 명
+                                2 명
                             </Typography>
                         </Alert>
                     </Grid>

@@ -12,7 +12,7 @@ const Dashboard = () => {
     const theme = createTheme({
         typography: {
             fontFamily:
-                'Montserrat,Noto Sans Korean,Titillium Web,IBM Plex Sans,Nanum Gothic'
+                'Hahmlet,Noto Sans Korean,Titillium Web,IBM Plex Sans,Nanum Gothic'
         },
     })
 
