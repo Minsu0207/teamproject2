@@ -134,6 +134,7 @@ function Worker() {
     // }, [user]);
 
 
+
     const fetchUser = async () => {
         try {
             setError(null);
