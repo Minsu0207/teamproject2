@@ -1,4 +1,5 @@
 <p align="center">
-<img src="https://user-images.githubusercontent.com/112928989/228094391-5685bca3-2e3e-4e91-a21f-de0761fb70fc.gif">
-</p>
+Project execution period : 2023.01.11~02.09
+Project Hosting :https://teampj01-69cc7.web.app/
+
 https://min27.notion.site/Keep-Me-c3487e5599f844fa9ab810bc6c927669
